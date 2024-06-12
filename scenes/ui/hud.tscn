@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs8tpnstpbbc1"]
+
+[ext_resource type="Script" path="res://scenes/ui/hud_src/hud.gd" id="1_dibop"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_dibop")
+
+[node name="Info" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 20.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 30
+
+[node name="FPS" type="Label" parent="Info"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "FPS: 0"
+
+[node name="SoulsCollected" type="Label" parent="Info"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Almas: 0"
+
+[node name="PlayerHealth" type="Label" parent="Info"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Vida: 10/10"

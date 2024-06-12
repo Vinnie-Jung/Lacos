@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://b72g037a5pa5w"]
+
+[ext_resource type="Script" path="res://scenes/menu/btn_src/ConfirmQuitBox.gd" id="1_b5601"]
+
+[node name="ConfirmQuitBox" type="CanvasLayer"]
+
+[node name="ScreenMargin" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundBlur" type="ColorRect" parent="ScreenMargin"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.478431)
+
+[node name="Box" type="ColorRect" parent="ScreenMargin"]
+self_modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(500, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VerticalAligner" type="VBoxContainer" parent="ScreenMargin/Box"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxTitle" type="MarginContainer" parent="ScreenMargin/Box/VerticalAligner"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="Title" type="Label" parent="ScreenMargin/Box/VerticalAligner/BoxTitle"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Sair do Jogo"
+
+[node name="TextMessage" type="MarginContainer" parent="ScreenMargin/Box/VerticalAligner"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="Message" type="Label" parent="ScreenMargin/Box/VerticalAligner/TextMessage"]
+layout_mode = 2
+text = "Você tem certeza que deseja sair do jogo?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="ScreenMargin/Box/VerticalAligner"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 50
+script = ExtResource("1_b5601")
+
+[node name="DenyBtn" type="Button" parent="ScreenMargin/Box/VerticalAligner/ButtonsContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "NÃO"
+
+[node name="ConfirmBtn" type="Button" parent="ScreenMargin/Box/VerticalAligner/ButtonsContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "SIM"

@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn45pegn3x1lc"]
+
+[ext_resource type="Script" path="res://scenes/menu/btn_src/MainMenuBtns.gd" id="1_hk7wv"]
+
+[node name="MainMenu" type="CanvasLayer"]
+
+[node name="ScreenMargin" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterElements" type="VBoxContainer" parent="ScreenMargin"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GameTitle" type="MarginContainer" parent="ScreenMargin/CenterElements"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="Title" type="Label" parent="ScreenMargin/CenterElements/GameTitle"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "LAÇOS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonBox" type="PanelContainer" parent="ScreenMargin/CenterElements"]
+self_modulate = Color(1, 1, 1, 0.054902)
+custom_minimum_size = Vector2(150, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ButtonList" type="VBoxContainer" parent="ScreenMargin/CenterElements/ButtonBox"]
+layout_mode = 2
+script = ExtResource("1_hk7wv")
+
+[node name="PlayBtn" type="Button" parent="ScreenMargin/CenterElements/ButtonBox/ButtonList"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
+text = "JOGAR"
+
+[node name="OptionsBtn" type="Button" parent="ScreenMargin/CenterElements/ButtonBox/ButtonList"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
+text = "OPÇÕES"
+
+[node name="QuitBtn" type="Button" parent="ScreenMargin/CenterElements/ButtonBox/ButtonList"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
+text = "SAIR"
+
+[node name="Footer" type="MarginContainer" parent="ScreenMargin"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="RightsLabel" type="Label" parent="ScreenMargin/Footer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Laços Team. Todos os direitos reservados."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Version" type="Label" parent="ScreenMargin/Footer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Versão 1.0"
+horizontal_alignment = 1
+vertical_alignment = 1

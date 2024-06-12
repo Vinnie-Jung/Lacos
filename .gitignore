@@ -1,0 +1,13 @@
+# Godot-specific
+.godot/
+*.import/
+*.imported/
+*.tscn.backup
+*.import
+*.gd~
+*.tscn~
+*.tres~
+*.err
+
+# Extras
+.todo.md

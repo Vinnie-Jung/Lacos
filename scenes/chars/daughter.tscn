@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://qogbmhrthkjq"]
+
+[ext_resource type="Script" path="res://scenes/chars/chars_src/daughter.gd" id="1_u0dgc"]
+[ext_resource type="Texture2D" uid="uid://07t1gkmqppot" path="res://icon.svg" id="2_4dtgm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iet7s"]
+radius = 64.0
+height = 128.0
+
+[node name="Daughter" type="CharacterBody2D"]
+scale = Vector2(0.5, 1)
+script = ExtResource("1_u0dgc")
+
+[node name="Texture" type="Sprite2D" parent="."]
+modulate = Color(0.911836, 0.911837, 0, 1)
+texture = ExtResource("2_4dtgm")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_iet7s")
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="TakeDamageTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="SuperPulo" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Shield" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="TakeDamageTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="SuperPulo" to="." method="_on_super_jump_timeout"]
+[connection signal="timeout" from="Shield" to="." method="_on_shield_timeout"]

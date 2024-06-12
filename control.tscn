@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=3 uid="uid://2dvwjd4c614w"]
+
+[ext_resource type="PackedScene" uid="uid://bfpkms4wcs1ll" path="res://texture_button.tscn" id="1_lc72f"]
+[ext_resource type="Script" path="res://Label.gd" id="2_key0n"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureButton3" parent="." instance=ExtResource("1_lc72f")]
+layout_mode = 0
+offset_left = 542.0
+offset_top = 425.0
+offset_right = 622.0
+offset_bottom = 505.0
+
+[node name="TextureButton" parent="TextureButton3" instance=ExtResource("1_lc72f")]
+layout_mode = 0
+offset_left = -101.0
+offset_top = -122.0
+offset_right = -21.0
+offset_bottom = -42.0
+disabled = true
+
+[node name="TextureButton" parent="TextureButton3/TextureButton" instance=ExtResource("1_lc72f")]
+layout_mode = 0
+offset_left = 33.0
+offset_top = -161.0
+offset_right = 113.0
+offset_bottom = -81.0
+disabled = true
+
+[node name="TextureButton2" parent="TextureButton3" instance=ExtResource("1_lc72f")]
+layout_mode = 0
+offset_left = 116.0
+offset_top = -116.0
+offset_right = 196.0
+offset_bottom = -36.0
+disabled = true
+
+[node name="TextureButton" parent="TextureButton3/TextureButton2" instance=ExtResource("1_lc72f")]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -163.0
+offset_right = 61.0
+offset_bottom = -83.0
+disabled = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 63.0
+offset_top = 49.0
+offset_right = 198.0
+offset_bottom = 69.0
+text = "Almas coletadas: 0 "
+script = ExtResource("2_key0n")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 895.0
+offset_top = 491.0
+offset_right = 1057.0
+offset_bottom = 536.0
+theme_override_font_sizes/font_size = 30
+text = "CONTINUAR"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 493.0
+offset_right = 255.0
+offset_bottom = 538.0
+theme_override_font_sizes/font_size = 30
+text = "MENU"
+
+[connection signal="pressed" from="Button" to="Label" method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="Label" method="_on_button_2_pressed"]

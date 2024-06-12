@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Laços"
+config/version="1.0 (Prot)"
+run/main_scene="res://scenes/menu/main_menu.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://icon.png"
+
+[autoload]
+
+GlobalConfig="*res://config/config.gd"
+GlobalInit="*res://config/init.gd"
+PlayerAttrib="*res://resources/helpers/playerattrib.gd"
+Soulhandler="*res://resources/helpers/soulhandler.gd"
+
+[gui]
+
+theme/custom_font="res://resources/fonts/PixelifySans.ttf"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
