@@ -2,9 +2,10 @@ extends CharacterBody2D
 
 @onready var timer: Timer = $TakeDamageTimer
 @onready var super_jump_timer: Timer = $SuperPulo
+@onready var animation = $Texture
 
 # World
-var gravity = 1200#ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity = 1500#ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Character Attributes
 var max_health: int = 10
@@ -16,6 +17,7 @@ const SUPER_JUMP_COOLDOWN: float = 1.0
 
 var can_super_jump = true
 var jump_force = 0
+var is_jumping: bool = false
 
 func _ready() -> void:
 	PlayerAttrib.set_max_health(max_health)
@@ -23,6 +25,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_move(delta)
+	print(is_on_floor())
 	self.velocity.y += gravity * delta
 
 func _move(delta: float) -> void:
@@ -31,6 +34,18 @@ func _move(delta: float) -> void:
 
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		jump_force = JUMP_STRENGTH
+		
+	# Controls the animation
+	if (direction != 0 && is_on_floor()):
+		_animation("float")
+		animation.flip_h = true if (direction < 0) else false
+	elif (is_jumping):
+		_animation("super_jump")
+		animation.flip_h = true if (direction < 0) else false
+	else:
+		_animation("idle")
+		
+	
 
 	_verify_jump(delta)
 	move_and_slide()
@@ -39,11 +54,18 @@ func _verify_jump(delta) -> void:
 	if Input.is_action_pressed("jump") and is_on_floor():
 		if can_super_jump:
 			jump_force = min(jump_force + JUMP_STRENGTH * delta, JUMP_STRENGTH * SUPER_JUMP_MULTIPLIER)
+			is_jumping = true
 		else:
 			jump_force = min(jump_force + JUMP_STRENGTH * delta, JUMP_STRENGTH)
 	elif Input.is_action_just_released("jump") and is_on_floor():
 		jump()
 		jump_force = 0
+		is_jumping = true
+		
+	if (!is_on_floor()):
+		is_jumping = true
+	else:
+		is_jumping = false
 
 func jump() -> void:
 	if can_super_jump:
@@ -101,3 +123,6 @@ func _input(event):
 func _on_shield_timeout():
 	destroy_shield(get_parent().get_child(-1))
 	self.modulate = Color(1, 1, 1)
+
+func _animation(anim_name: String) -> void:
+	animation.play(anim_name)
