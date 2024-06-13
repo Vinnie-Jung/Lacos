@@ -14,7 +14,6 @@ config/name="Laços"
 config/version="1.0 (Prot)"
 run/main_scene="res://scenes/menu/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.png"
 
 [autoload]
 

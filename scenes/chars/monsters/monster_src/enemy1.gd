@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var attack_area = $Attack/Area
 @onready var patrol_left: Marker2D = $PatrolPointLeft
 @onready var patrol_right: Marker2D = $PatrolPointRight
-@onready var timer: Timer = $AttackTimer
+@onready var attack_cooldown: Timer = $AttackCooldown
 @onready var hit_timer: Timer = $HitTimer
 
 # World
@@ -21,11 +21,14 @@ const MAX_HEALTH: int = 10
 @export var max_health: int = MAX_HEALTH
 @onready var target = null
 
+var can_attack = true
+var in_range = false
+
 @onready var animation = $Texture
 
 func _ready() -> void:
-	timer.wait_time = 1.0
-	timer.one_shot = true
+	attack_cooldown.wait_time = 1.0
+	attack_cooldown.one_shot = true
 	_animation("walk")
 	
 func _physics_process(delta: float) -> void:
@@ -72,9 +75,10 @@ func _on_radar_body_exited(body) -> void:
 		target = null
 
 func _on_attack_body_entered(body) -> void:
-	if (body.name == target.name && timer.time_left == 0):
+	in_range = true
+	if (body.name == target.name && attack_cooldown.time_left == 0 && in_range):
 		body.take_damage(ATTACK_DAMAGE)
-		timer.start()
+		attack_cooldown.start()
 
 func _animation(anim: String) -> void:
 	animation.play(anim)
@@ -82,3 +86,13 @@ func _animation(anim: String) -> void:
 
 func _on_hit_timer_timeout():
 	self.modulate = Color(1, 1, 1)
+
+
+func _on_attack_cooldown_timeout():
+	can_attack = true
+	if (target != null && in_range):
+		_on_attack_body_entered(target)
+
+
+func _on_attack_body_exited(body):
+	in_range = false

@@ -94,7 +94,7 @@ func _on_timer_timeout() -> void:
 	self.modulate = Color(1, 1, 1)
 	
 
-func shield():
+func shield_skill():
 	var shild = ColorRect.new()
 	self.add_child(shild)
 	shild.custom_minimum_size = Vector2(100,100)
@@ -110,7 +110,7 @@ func destroy_shield(node):
 func _input(event):
 	if event is InputEventKey:
 		if (Input.is_key_pressed(KEY_Q)):
-			shield()
+			shield_skill()
 			var shield = $Shield
 			shield.start()
 

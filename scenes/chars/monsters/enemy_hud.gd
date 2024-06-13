@@ -2,7 +2,6 @@ extends Control
 
 # Nodes
 @onready var life_bar: ProgressBar = $LifeBar
-@onready var life_bar_timer: Timer = $LifeBarVisible
 
 # Attribs
 @onready var current_life = self.get_parent().current_health
@@ -28,5 +27,3 @@ func _bar_behavior() -> void:
 		life_bar.visible = false
 	else:
 		life_bar.visible = true
-		
-	# Maybe implement a hided bar after a few moments
