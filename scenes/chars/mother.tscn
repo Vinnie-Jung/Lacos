@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dnsptyp0ysmjh"]
+[gd_scene load_steps=35 format=3 uid="uid://dnsptyp0ysmjh"]
 
 [ext_resource type="Script" path="res://scenes/chars/chars_src/mother.gd" id="1_5yh1y"]
 [ext_resource type="Texture2D" uid="uid://ckkhumfhjxm3y" path="res://resources/assets/spr/mother/mother_attack_sheet.png" id="2_ywuvh"]
@@ -207,6 +207,10 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_theco"]
 height = 56.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aspnv"]
+radius = 6.5
+height = 43.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ffs5j"]
 radius = 19.0
 height = 38.0
@@ -231,16 +235,25 @@ shape = SubResource("CapsuleShape2D_theco")
 wait_time = 0.1
 one_shot = true
 
-[node name="AttackBox" type="Area2D" parent="."]
+[node name="RockAttackBox" type="Area2D" parent="."]
 
-[node name="Area" type="CollisionShape2D" parent="AttackBox"]
+[node name="Area" type="CollisionShape2D" parent="RockAttackBox"]
+position = Vector2(19.5, 0)
+shape = SubResource("CapsuleShape2D_aspnv")
+disabled = true
+
+[node name="AttackTimer" type="Timer" parent="RockAttackBox"]
+
+[node name="SpearAttackBox" type="Area2D" parent="."]
+
+[node name="Area" type="CollisionShape2D" parent="SpearAttackBox"]
 position = Vector2(29.5, 8.5)
 shape = SubResource("CapsuleShape2D_ffs5j")
 disabled = true
 
-[node name="AttackTimer" type="Timer" parent="AttackBox"]
+[node name="AttackTimer" type="Timer" parent="SpearAttackBox"]
 wait_time = 0.2
 
 [connection signal="timeout" from="TakeDamageTimer" to="." method="_on_timer_timeout"]
-[connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]
-[connection signal="timeout" from="AttackBox/AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="body_entered" from="SpearAttackBox" to="." method="_on_attack_box_body_entered"]
+[connection signal="timeout" from="SpearAttackBox/AttackTimer" to="." method="_on_attack_timer_timeout"]

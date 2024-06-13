@@ -25,7 +25,7 @@ var in_range = false
 @onready var animation = $Texture
 
 func _ready() -> void:
-	attack_cooldown.wait_time = 1.0
+	attack_cooldown.wait_time = 1.5
 	attack_cooldown.one_shot = true
 	_animation("walk")
 	

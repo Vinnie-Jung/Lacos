@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bignweb2nbfw1"]
+
+[ext_resource type="Script" path="res://scenes/extras/projectiles/mother_proj.gd" id="1_natg0"]
+[ext_resource type="Texture2D" uid="uid://bn8fx8biwoxgw" path="res://icon.svg" id="2_nx4p8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rbkag"]
+radius = 19.0
+height = 38.0
+
+[node name="MotherProjectile" type="Area2D"]
+script = ExtResource("1_natg0")
+
+[node name="Texture" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_nx4p8")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_rbkag")

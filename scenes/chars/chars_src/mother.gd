@@ -2,16 +2,18 @@ class_name Mother
 extends CharacterBody2D
 
 # Nodes
-@onready var attack_timer: Timer = $AttackBox/AttackTimer
+@onready var rock_attack_area = $RockAttackBox/Area
+@onready var rock_attack_timer: Timer = $RockAttackBox/AttackTimer
+@onready var spear_attack_timer: Timer = $SpearAttackBox/AttackTimer
 @onready var animation: AnimatedSprite2D = $Texture
-@onready var attack_area = $AttackBox/Area
+@onready var spear_attack_area = $SpearAttackBox/Area
 @onready var hit_timer: Timer = $TakeDamageTimer
 
 # Preloads
 @onready var daughter_scene: PackedScene = preload("res://scenes/levels/daugher_scene_prot.tscn")
 
 # World
-@onready var gravity = 1200#ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var gravity = 1200
 
 # Character Attributes
 @onready var max_health: int = 10
@@ -42,8 +44,19 @@ func _input(event: InputEvent) -> void:
 			if (mouse_position.x < global_position.x):
 				attack_dir = -1
 			else:
-				attack_dir = 1 
+				attack_dir = 1
+				
+			# (TODO) Validate here with weapon player is using
 			_spear_attack(attack_dir)
+			
+		elif (event.is_action_pressed("ranged_attack") && can_attack):
+			var mouse_position = get_viewport().get_camera_2d().get_global_mouse_position()
+			if (mouse_position.x < global_position.x):
+				attack_dir = -1
+			else:
+				attack_dir = 1
+			# (TODO) Transform attack_dir in a Vec2
+			_ranged_attack(attack_dir)
 
 func _physics_process(delta: float) -> void:
 	_move(delta)
@@ -58,11 +71,11 @@ func _move(delta: float) -> void:
 	if (direction != 0 && !is_jumping && !is_attacking):
 		_animation("walk")
 		animation.flip_h = true if (direction < 0) else false
-		attack_area.position.x = -29.5 if (direction <0) else 29.5
+		spear_attack_area.position.x = -29.5 if (direction <0) else 29.5
 	elif (is_jumping && !is_attacking):
 		_animation("jump")
 		animation.flip_h = true if (direction < 0) else false
-		attack_area.position.x = -29.5 if (direction <0) else 29.5
+		spear_attack_area.position.x = -29.5 if (direction <0) else 29.5
 	elif (!is_attacking):
 		_animation("idle")
 	
@@ -113,19 +126,29 @@ func _on_attack_box_body_entered(body):
 func _on_attack_timer_timeout():
 	can_attack = true
 	is_attacking = false
-	attack_area.disabled = true
+	spear_attack_area.disabled = true
 	
 func _rock_attack(dir) -> void:
-	pass
-
-func _spear_attack(dir) -> void:
-	attack_area.disabled = false
+	rock_attack_area.disabled = false
 	is_attacking = true
-	attack_timer.start()
+	rock_attack_timer.start()
 	
 	animation.flip_h = true if (dir < 0) else false
-	attack_area.position.x = -29.5 if (dir <0) else 29.5
+	spear_attack_area.position.x = -29.5 if (dir <0) else 29.5
+	_animation("attack")
+
+func _spear_attack(dir) -> void:
+	spear_attack_area.disabled = false
+	is_attacking = true
+	spear_attack_timer.start()
+	
+	animation.flip_h = true if (dir < 0) else false
+	spear_attack_area.position.x = -29.5 if (dir <0) else 29.5
 	_animation("attack")
 	
 func _ranged_attack(dir) -> void:
-	pass
+	var new_proj = preload("res://scenes/extras/projectiles/mother_projectile.tscn").instantiate()
+	self.add_child(new_proj)
+	
+	new_proj.direction.x = dir
+	new_proj.scale = Vector2(0.3, 0.3)
