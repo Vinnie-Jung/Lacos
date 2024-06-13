@@ -152,3 +152,5 @@ func _ranged_attack(dir) -> void:
 	
 	new_proj.direction.x = dir
 	new_proj.scale = Vector2(0.3, 0.3)
+	
+	animation.flip_h = true if (dir < 0) else false
