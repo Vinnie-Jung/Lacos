@@ -2,6 +2,7 @@ class_name Mother
 extends CharacterBody2D
 
 # Nodes
+@onready var proj_cooldown: Timer = $ProjectileCooldown
 @onready var rock_attack_area = $RockAttackBox/Area
 @onready var rock_attack_timer: Timer = $RockAttackBox/AttackTimer
 @onready var spear_attack_timer: Timer = $SpearAttackBox/AttackTimer
@@ -153,4 +154,11 @@ func _ranged_attack(dir) -> void:
 	new_proj.direction.x = dir
 	new_proj.scale = Vector2(0.3, 0.3)
 	
+	proj_cooldown.start()
+	can_attack = false
+	
 	animation.flip_h = true if (dir < 0) else false
+
+
+func _on_projectile_cooldown_timeout() -> void:
+	can_attack = true
