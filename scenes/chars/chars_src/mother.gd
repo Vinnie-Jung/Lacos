@@ -114,6 +114,9 @@ func _on_attack_timer_timeout():
 	can_attack = true
 	is_attacking = false
 	attack_area.disabled = true
+	
+func _rock_attack(dir) -> void:
+	pass
 
 func _spear_attack(dir) -> void:
 	attack_area.disabled = false
@@ -123,3 +126,6 @@ func _spear_attack(dir) -> void:
 	animation.flip_h = true if (dir < 0) else false
 	attack_area.position.x = -29.5 if (dir <0) else 29.5
 	_animation("attack")
+	
+func _ranged_attack(dir) -> void:
+	pass

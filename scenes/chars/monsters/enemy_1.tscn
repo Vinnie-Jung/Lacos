@@ -129,7 +129,7 @@ position = Vector2(0, -5)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_r2ht1")
 animation = &"walk"
-frame_progress = 0.0891007
+frame_progress = 0.274084
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_flxod")
@@ -144,12 +144,6 @@ shape = SubResource("RectangleShape2D_s6d4h")
 [node name="Area" type="CollisionShape2D" parent="Attack"]
 position = Vector2(32, 0)
 shape = SubResource("CapsuleShape2D_1r4a3")
-
-[node name="PatrolPointLeft" type="Marker2D" parent="."]
-position = Vector2(634, 0)
-
-[node name="PatrolPointRight" type="Marker2D" parent="."]
-position = Vector2(-635, 0)
 
 [node name="AttackCooldown" type="Timer" parent="."]
 one_shot = true

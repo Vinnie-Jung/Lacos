@@ -3,8 +3,6 @@ extends CharacterBody2D
 
 # Nodes
 @onready var attack_area = $Attack/Area
-@onready var patrol_left: Marker2D = $PatrolPointLeft
-@onready var patrol_right: Marker2D = $PatrolPointRight
 @onready var attack_cooldown: Timer = $AttackCooldown
 @onready var hit_timer: Timer = $HitTimer
 
