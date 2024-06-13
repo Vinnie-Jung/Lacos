@@ -28,9 +28,9 @@ func default_config() -> void:
 
 	# --- Video ---
 	config.set_value("video", "fullscreen", false)
-	config.set_value("video", "resizable", false)
+	config.set_value("video", "resizable", true)
 	config.set_value("video", "resolution", DisplayServer.screen_get_size() / 1.5)
-	config.set_value("video", "stretch_mode", viewport.CONTENT_SCALE_MODE_CANVAS_ITEMS)
+	config.set_value("video", "stretch_mode", viewport.CONTENT_SCALE_MODE_VIEWPORT)
 	config.set_value("video", "window_title", ProjectSettings.get_setting("application/config/name"))
 	config.set_value("video", "window_mode", DisplayServer.WINDOW_MODE_WINDOWED)
 

@@ -123,7 +123,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -170,7 +170,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lhp1o")
 }],
-"loop": true,
+"loop": false,
 "name": &"jump",
 "speed": 12.0
 }, {
@@ -208,8 +208,8 @@ animations = [{
 height = 56.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ffs5j"]
-radius = 14.0
-height = 32.0
+radius = 19.0
+height = 38.0
 
 [node name="Mother" type="CharacterBody2D"]
 scale = Vector2(2, 2)
@@ -218,8 +218,8 @@ script = ExtResource("1_5yh1y")
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_g6vk2")
-animation = &"jump"
-frame_progress = 0.445978
+animation = &"attack"
+frame_progress = 0.311
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 4)
@@ -234,7 +234,13 @@ one_shot = true
 [node name="AttackBox" type="Area2D" parent="."]
 
 [node name="Area" type="CollisionShape2D" parent="AttackBox"]
-position = Vector2(40, 9)
+position = Vector2(29.5, 8.5)
 shape = SubResource("CapsuleShape2D_ffs5j")
+disabled = true
+
+[node name="AttackTimer" type="Timer" parent="AttackBox"]
+wait_time = 0.2
 
 [connection signal="timeout" from="TakeDamageTimer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]
+[connection signal="timeout" from="AttackBox/AttackTimer" to="." method="_on_attack_timer_timeout"]

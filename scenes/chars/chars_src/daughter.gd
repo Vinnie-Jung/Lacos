@@ -45,8 +45,6 @@ func _move(delta: float) -> void:
 	else:
 		_animation("idle")
 		
-	
-
 	_verify_jump(delta)
 	move_and_slide()
 
@@ -95,12 +93,9 @@ func _die() -> void:
 func _on_timer_timeout() -> void:
 	self.modulate = Color(1, 1, 1)
 	
-	
 
 func shield():
 	var shild = ColorRect.new()
-	
-	
 	self.add_child(shild)
 	shild.custom_minimum_size = Vector2(100,100)
 	shild.name = "shield"
@@ -118,7 +113,6 @@ func _input(event):
 			shield()
 			var shield = $Shield
 			shield.start()
-
 
 func _on_shield_timeout():
 	destroy_shield(get_parent().get_child(-1))
