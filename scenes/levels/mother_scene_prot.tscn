@@ -43,7 +43,7 @@ size = Vector2(7773, 125)
 [node name="MotherSceneProt" type="Node"]
 
 [node name="Mother" parent="." instance=ExtResource("1_nyxn6")]
-position = Vector2(3659, -143)
+position = Vector2(186, -135)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -71,7 +71,7 @@ shape = SubResource("RectangleShape2D_t1xnp")
 [node name="HUD" parent="." instance=ExtResource("3_y8b41")]
 
 [node name="Enemy1" parent="." instance=ExtResource("4_3qi82")]
-position = Vector2(3182, -137)
+position = Vector2(3110, -116)
 
 [node name="Enemy3" parent="." instance=ExtResource("4_3qi82")]
 position = Vector2(5980, -150)
@@ -232,5 +232,11 @@ shape = SubResource("RectangleShape2D_41foe")
 
 [node name="Enemy2" parent="." instance=ExtResource("6_k1obm")]
 position = Vector2(4551, -108)
+
+[node name="Enemy6" parent="." instance=ExtResource("6_k1obm")]
+position = Vector2(5829, -557)
+
+[node name="Enemy7" parent="." instance=ExtResource("6_k1obm")]
+position = Vector2(6590, -136)
 
 [connection signal="body_entered" from="delete" to="delete" method="_on_body_entered"]

@@ -152,6 +152,14 @@ shape = SubResource("CircleShape2D_sro1a")
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 2.0
 
+[node name="LeftTerrainDetector" type="RayCast2D" parent="."]
+position = Vector2(-10, 0)
+target_position = Vector2(0, 56)
+
+[node name="RightTerrainDetector" type="RayCast2D" parent="."]
+position = Vector2(10, 0)
+target_position = Vector2(0, 56)
+
 [connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
 [connection signal="body_entered" from="Radar" to="." method="_on_radar_body_entered"]
 [connection signal="body_exited" from="Radar" to="." method="_on_radar_body_exited"]

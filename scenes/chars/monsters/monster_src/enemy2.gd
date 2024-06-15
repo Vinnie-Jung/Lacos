@@ -10,8 +10,13 @@ const SPEED = 10000
 @onready var attack_range = $Range
 @onready var attack_cooldown = $AttackCooldown
 @onready var animation = $Texture
+@onready var terrain_left = $LeftTerrainDetector
+@onready var terrain_right = $RightTerrainDetector
 
 @export var max_health = MAX_HEALTH
+
+@onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
 
 var target = null
 var can_attack = true
@@ -31,7 +36,16 @@ func _physics_process(delta) -> void:
 				attack_cooldown.start()
 	
 	if (target != null):
-		_movement(delta)
+		var dir = (target.global_position - self.global_position)
+		if (terrain_left.is_colliding()):
+			if (dir.x < 0):
+				_movement(delta)
+		if (terrain_right.is_colliding()):
+			if (dir.x > 0):
+				_movement(delta)
+				
+	# Gravity
+	self.velocity.y += gravity * delta if (!is_on_floor()) else 0
 
 func _movement(delta: float) -> void:
 	if (target is CharacterBody2D && not_in_range):
