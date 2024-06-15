@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://cw826tn4c1ff0"]
+[gd_scene load_steps=18 format=3 uid="uid://cw826tn4c1ff0"]
 
 [ext_resource type="PackedScene" uid="uid://dnsptyp0ysmjh" path="res://scenes/chars/mother.tscn" id="1_nyxn6"]
-[ext_resource type="Texture2D" uid="uid://07t1gkmqppot" path="res://icon.svg" id="2_vl1sl"]
+[ext_resource type="Texture2D" uid="uid://bn8fx8biwoxgw" path="res://icon.svg" id="2_vl1sl"]
 [ext_resource type="PackedScene" uid="uid://bs8tpnstpbbc1" path="res://scenes/ui/hud.tscn" id="3_y8b41"]
 [ext_resource type="PackedScene" uid="uid://cp2g3y2snyors" path="res://scenes/chars/monsters/enemy_1.tscn" id="4_3qi82"]
 [ext_resource type="Script" path="res://scenes/levels/delete.gd" id="6_bchn7"]
+[ext_resource type="PackedScene" uid="uid://dcd8ivdvs11ry" path="res://scenes/chars/monsters/enemy_2.tscn" id="6_k1obm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1pjjk"]
 size = Vector2(845, 333)
@@ -42,7 +43,7 @@ size = Vector2(7773, 125)
 [node name="MotherSceneProt" type="Node"]
 
 [node name="Mother" parent="." instance=ExtResource("1_nyxn6")]
-position = Vector2(-42, -131)
+position = Vector2(3659, -143)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -228,5 +229,8 @@ script = ExtResource("6_bchn7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="delete"]
 position = Vector2(3723.5, -34)
 shape = SubResource("RectangleShape2D_41foe")
+
+[node name="Enemy2" parent="." instance=ExtResource("6_k1obm")]
+position = Vector2(4551, -108)
 
 [connection signal="body_entered" from="delete" to="delete" method="_on_body_entered"]

@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var spear_attack_area = $SpearAttackBox/Area
 @onready var hit_timer: Timer = $TakeDamageTimer
 @onready var ghost_timer: Timer = $DashGhost
+@onready var dash_cooldown = $DashCooldown
 
 
 # Preloads
@@ -35,7 +36,8 @@ var attack_dir
 
 
 var walk_dir
-const DASH_SPEED: int = 10000
+const DASH_SPEED: float = 100000
+var is_dashing: bool = false
 var delta_time
 var can_dash = true
 
@@ -70,7 +72,9 @@ func _input(event: InputEvent) -> void:
 			_ranged_attack(attack_dir)
 	
 	if (event.is_action_pressed("dash") && can_dash):
-		dash()
+		is_dashing = true
+		can_dash = false
+		dash_cooldown.start()
 
 func _physics_process(delta: float) -> void:
 	_move(delta)
@@ -81,7 +85,11 @@ func _move(delta: float) -> void:
 	var direction: float = Input.get_axis("move_left", "move_right")
 	walk_dir = direction
 	delta_time = delta
-	self.velocity.x = direction * (SPEED * delta)
+	
+	if (is_dashing):
+		self.velocity.x = direction * (DASH_SPEED * delta)
+	else:
+		self.velocity.x = direction * (SPEED * delta)
 	
 	# Controls the animation
 	if (direction != 0 && !is_jumping && !is_attacking):
@@ -180,25 +188,7 @@ func _ranged_attack(dir) -> void:
 func _on_projectile_cooldown_timeout() -> void:
 	can_attack_ranged = true
 
-# (TODO) Implements ghost to dash
-func add_ghost() -> void:
-	var ghost = ghost_node
-	ghost.set_property(self.position, animation.scale)
-	get_tree().current_scene.add_child(ghost)
-
-
-func _on_dash_ghost_timeout():
-	add_ghost()
-
-func dash():
-	can_dash = false
-	print("is dashing")
-	var dash_cooldown = $DashCooldown
-	self.position.x += walk_dir * (DASH_SPEED * delta_time)
-	dash_cooldown.start()
-	move_and_slide()
-
 
 func _on_dash_cooldown_timeout():
 	can_dash = true
-	self.velocity.x = walk_dir * (SPEED * delta_time)
+	is_dashing = false

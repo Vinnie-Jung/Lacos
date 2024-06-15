@@ -187,14 +187,27 @@ shape = SubResource("CapsuleShape2D_iet7s")
 wait_time = 0.1
 one_shot = true
 
-[node name="SuperPulo" type="Timer" parent="."]
+[node name="SuperJump" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
 
-[node name="Shield" type="Timer" parent="."]
+[node name="ShieldCooldown" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="ShieldDuration" type="Timer" parent="."]
 wait_time = 3.0
+one_shot = true
+
+[node name="InvisibilityCooldown" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="InvisibilityDuration" type="Timer" parent="."]
+wait_time = 4.0
 one_shot = true
 
 [connection signal="timeout" from="TakeDamageTimer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="SuperPulo" to="." method="_on_super_jump_timeout"]
-[connection signal="timeout" from="Shield" to="." method="_on_shield_timeout"]
+[connection signal="timeout" from="SuperJump" to="." method="_on_super_jump_timeout"]
+[connection signal="timeout" from="ShieldCooldown" to="." method="_on_shield_cooldown_timeout"]
+[connection signal="timeout" from="ShieldDuration" to="." method="_on_shield_timeout"]
+[connection signal="timeout" from="InvisibilityCooldown" to="." method="_on_invisibility_cooldown_timeout"]
+[connection signal="timeout" from="InvisibilityDuration" to="." method="_on_invisibility_duration_timeout"]

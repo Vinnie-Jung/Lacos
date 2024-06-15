@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/chars/monsters/monster_src/enemy1.gd" id="1_jfjr8"]
 [ext_resource type="Texture2D" uid="uid://b65wffhttmf6c" path="res://resources/assets/spr/enemy1/enemy_walk_melee.png" id="2_4fdwm"]
-[ext_resource type="Script" path="res://scenes/chars/monsters/enemy_hud.gd" id="3_4xqj2"]
+[ext_resource type="PackedScene" uid="uid://qyeunann8akq" path="res://scenes/ui/enemy_hud.tscn" id="3_yk4pu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhf08"]
 atlas = ExtResource("2_4fdwm")
@@ -152,29 +152,7 @@ one_shot = true
 wait_time = 0.1
 one_shot = true
 
-[node name="EnemyHUD" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("3_4xqj2")
-
-[node name="LifeBar" type="ProgressBar" parent="EnemyHUD"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.075
-anchor_top = -1.3375
-anchor_right = 0.075
-anchor_bottom = -1.3375
-offset_left = -13.0
-offset_top = -3.5
-offset_right = 13.0
-offset_bottom = 3.5
-grow_horizontal = 2
-grow_vertical = 2
-value = 100.0
-show_percentage = false
-metadata/_edit_use_anchors_ = true
+[node name="EnemyHUD" parent="." instance=ExtResource("3_yk4pu")]
 
 [node name="LeftTerrainDetector" type="RayCast2D" parent="."]
 position = Vector2(-20, 0)

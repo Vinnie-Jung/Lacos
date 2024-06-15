@@ -1,9 +1,18 @@
 extends CharacterBody2D
 
+@export var is_inv: bool = false
+
 @onready var timer: Timer = $TakeDamageTimer
-@onready var super_jump_timer: Timer = $SuperPulo
+@onready var super_jump_timer: Timer = $SuperJump
 @onready var animation = $Texture
 @onready var collision_box = $Collision
+@onready var invisibility_cooldown = $InvisibilityCooldown
+@onready var invisibility_timer = $InvisibilityDuration
+@onready var shield_cooldown = $ShieldCooldown
+@onready var shield_duration = $ShieldDuration
+
+var can_shield = true
+var can_use_skill = true
 
 # World
 var gravity = 1500#ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -20,13 +29,14 @@ var can_super_jump = true
 var jump_force = 0
 var is_jumping: bool = false
 
+var can_hide = true
+
 func _ready() -> void:
 	PlayerAttrib.set_max_health(max_health)
 	PlayerAttrib.set_health(current_health)
 
 func _physics_process(delta: float) -> void:
 	_move(delta)
-	print(is_on_floor())
 	self.velocity.y += gravity * delta
 
 func _move(delta: float) -> void:
@@ -78,7 +88,11 @@ func _on_super_jump_timeout() -> void:
 	can_super_jump = true
 
 func take_damage(dmg: int) -> void:
-	if (!get_child(-1).name == "shield"):
+	var aux
+	for child in self.get_children():
+		if (child.name == "ShieldGenerated"):
+			aux = child
+	if (aux == null):
 		current_health -= dmg
 		PlayerAttrib.set_health(current_health)
 		self.modulate = Color(1, 0, 0)
@@ -99,7 +113,7 @@ func shield_skill():
 	var shild = ColorRect.new()
 	self.add_child(shild)
 	shild.custom_minimum_size = Vector2(100,100)
-	shild.name = "shield"
+	shild.name = "ShieldGenerated"
 	shild.position = Vector2(-55,0)
 	
 	shild.color = Color(0,0,1, 0)
@@ -110,14 +124,25 @@ func destroy_shield(node):
 
 func _input(event):
 	if event is InputEventKey:
-		if (Input.is_key_pressed(KEY_Q)):
+		if (Input.is_key_pressed(KEY_Q) && can_shield && can_use_skill):
+			can_use_skill = false
 			shield_skill()
-			var shield = $Shield
-			shield.start()
+			shield_duration.start()
+			
+		if (event.is_action_pressed("invisibility") && can_hide && can_use_skill):
+			can_use_skill = false
+			invisibility()
+			invisibility_timer.start()
 
+# Duration
 func _on_shield_timeout():
-	destroy_shield(get_parent().get_child(-1))
+	can_shield = false
+	for child in self.get_children():
+		if (child.name == "ShieldGenerated"):
+			destroy_shield(child)
 	self.modulate = Color(1, 1, 1)
+	shield_cooldown.start()
+	can_use_skill = true
 
 func _animation(anim_name: String) -> void:
 	animation.play(anim_name)
@@ -127,3 +152,24 @@ func _animation(anim_name: String) -> void:
 		animation.position.y = -3
 	else:
 		animation.position.y = 0
+
+
+func invisibility():
+	is_inv = true
+	can_hide = false
+	self.modulate = Color(1, 1, 1, 0.4)
+
+
+func _on_invisibility_duration_timeout():
+	is_inv = false
+	self.modulate = Color(1, 1, 1, 1)
+	invisibility_cooldown.start()
+	can_use_skill = true
+
+
+func _on_invisibility_cooldown_timeout():
+	can_hide = true
+
+
+func _on_shield_cooldown_timeout():
+	can_shield = true

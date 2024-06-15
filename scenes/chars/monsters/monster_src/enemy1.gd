@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var hit_timer: Timer = $HitTimer
 @onready var terrain_left = $LeftTerrainDetector
 @onready var terrain_right = $RightTerrainDetector
+@onready var radar = $Radar
 
 # World
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -42,7 +43,15 @@ func _physics_process(delta: float) -> void:
 		elif (terrain_right.is_colliding()):
 			if (dir.x > 0):
 				_movement(delta)
+	
+	var bodies_in_radar = radar.get_overlapping_bodies()
+	
+	for body in bodies_in_radar:
+		if (body.name == "Daughter" && !body.is_inv):
+			target = body
 			
+		if (body.name == "Daughter" && body.is_inv):
+			target = null
 	
 	# Gravity
 	self.velocity.y += gravity * delta if (!is_on_floor()) else 0
@@ -79,6 +88,9 @@ func _die() -> void:
 func _on_radar_body_entered(body) -> void:
 	if (body.name == "Mother" || body.name == "Daughter"):
 		target = body
+		
+		if (body.name == "Daughter" && body.is_inv):
+			target = null
 
 func _on_radar_body_exited(body) -> void:
 	if (body.name == "Mother" || body.name == "Daughter"):

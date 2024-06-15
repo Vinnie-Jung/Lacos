@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://mnnmv6yn20qn"]
+[gd_scene load_steps=12 format=3 uid="uid://mnnmv6yn20qn"]
 
 [ext_resource type="Texture2D" uid="uid://bn8fx8biwoxgw" path="res://icon.svg" id="1_5ifov"]
 [ext_resource type="PackedScene" uid="uid://qogbmhrthkjq" path="res://scenes/chars/daughter.tscn" id="1_xvgpf"]
 [ext_resource type="PackedScene" uid="uid://bs8tpnstpbbc1" path="res://scenes/ui/hud.tscn" id="3_2xa52"]
 [ext_resource type="PackedScene" uid="uid://cp2g3y2snyors" path="res://scenes/chars/monsters/enemy_1.tscn" id="4_qmbyd"]
+[ext_resource type="PackedScene" uid="uid://dcd8ivdvs11ry" path="res://scenes/chars/monsters/enemy_2.tscn" id="5_3yjcw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qxatg"]
 size = Vector2(8447.25, 1754)
@@ -26,7 +27,7 @@ size = Vector2(5398, 801)
 [node name="DaugherSceneProt" type="Node"]
 
 [node name="Daughter" parent="." instance=ExtResource("1_xvgpf")]
-position = Vector2(-4541, 754)
+position = Vector2(-1639, 725)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -65,13 +66,16 @@ position = Vector2(-3755.25, 554)
 shape = SubResource("RectangleShape2D_0y2js")
 
 [node name="Enemy1" parent="." instance=ExtResource("4_qmbyd")]
-position = Vector2(-2655, 735)
+position = Vector2(-2655, 772)
 
 [node name="Enemy2" parent="." instance=ExtResource("4_qmbyd")]
-position = Vector2(-825, 752)
+position = Vector2(-821, 771)
 
 [node name="Enemy3" parent="." instance=ExtResource("4_qmbyd")]
-position = Vector2(1318, 749)
+position = Vector2(1318, 765)
+
+[node name="Enemy2" parent="Enemy3" instance=ExtResource("5_3yjcw")]
+position = Vector2(-985, 8)
 
 [node name="StaticBody2D11" type="StaticBody2D" parent="."]
 position = Vector2(-4792, 859)
