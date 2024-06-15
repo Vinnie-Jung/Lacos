@@ -9,9 +9,12 @@ extends CharacterBody2D
 @onready var animation: AnimatedSprite2D = $Texture
 @onready var spear_attack_area = $SpearAttackBox/Area
 @onready var hit_timer: Timer = $TakeDamageTimer
+@onready var ghost_timer: Timer = $DashGhost
+
 
 # Preloads
 @onready var daughter_scene: PackedScene = preload("res://scenes/levels/daugher_scene_prot.tscn")
+@onready var ghost_node: Sprite2D = preload("res://scenes/extras/ghost/ghost.tscn").instantiate()
 
 # World
 @onready var gravity = 1200
@@ -20,13 +23,21 @@ extends CharacterBody2D
 @onready var max_health: int = 10
 @onready var current_health: int = max_health
 @onready var damage: int = 3
+@onready var ranged_damage: int = 2
 const SPEED: int = 25000
 const JUMP_STRENGH: int = 700
 var is_jumping: bool
 
-var can_attack = true
+var can_attack_ranged = true
+var can_attack_melee = true
 var is_attacking: bool = false
 var attack_dir
+
+
+var walk_dir
+const DASH_SPEED: int = 10000
+var delta_time
+var can_dash = true
 
 func _ready() -> void:
 	# Sets handler
@@ -35,12 +46,11 @@ func _ready() -> void:
 	
 	# Sets initial animation
 	_animation("idle")
-	
 	is_jumping = false
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton):
-		if (event.is_action_pressed("melee_attack") && can_attack):
+		if (event.is_action_pressed("melee_attack") && can_attack_melee):
 			var mouse_position = get_viewport().get_camera_2d().get_global_mouse_position()
 			if (mouse_position.x < global_position.x):
 				attack_dir = -1
@@ -50,7 +60,7 @@ func _input(event: InputEvent) -> void:
 			# (TODO) Validate here with weapon player is using
 			_spear_attack(attack_dir)
 			
-		elif (event.is_action_pressed("ranged_attack") && can_attack):
+		elif (event.is_action_pressed("ranged_attack") && can_attack_ranged):
 			var mouse_position = get_viewport().get_camera_2d().get_global_mouse_position()
 			if (mouse_position.x < global_position.x):
 				attack_dir = -1
@@ -58,6 +68,9 @@ func _input(event: InputEvent) -> void:
 				attack_dir = 1
 			# (TODO) Transform attack_dir in a Vec2
 			_ranged_attack(attack_dir)
+	
+	if (event.is_action_pressed("dash") && can_dash):
+		dash()
 
 func _physics_process(delta: float) -> void:
 	_move(delta)
@@ -66,6 +79,8 @@ func _physics_process(delta: float) -> void:
 
 func _move(delta: float) -> void:
 	var direction: float = Input.get_axis("move_left", "move_right")
+	walk_dir = direction
+	delta_time = delta
 	self.velocity.x = direction * (SPEED * delta)
 	
 	# Controls the animation
@@ -119,13 +134,13 @@ func _animation(anim_name: String) -> void:
 
 
 func _on_attack_box_body_entered(body):
-	can_attack = false
+	can_attack_melee = false
 	if (body.is_in_group("enemies")):
 		body.take_damage(damage)
 
 
 func _on_attack_timer_timeout():
-	can_attack = true
+	can_attack_melee = true
 	is_attacking = false
 	spear_attack_area.disabled = true
 	
@@ -149,16 +164,41 @@ func _spear_attack(dir) -> void:
 	
 func _ranged_attack(dir) -> void:
 	var new_proj = preload("res://scenes/extras/projectiles/mother_projectile.tscn").instantiate()
-	self.add_child(new_proj)
+	get_parent().add_child(new_proj)
 	
+	new_proj.position = self.position
 	new_proj.direction.x = dir
 	new_proj.scale = Vector2(0.3, 0.3)
+	new_proj.damage = ranged_damage
 	
 	proj_cooldown.start()
-	can_attack = false
+	can_attack_ranged = false
 	
 	animation.flip_h = true if (dir < 0) else false
 
 
 func _on_projectile_cooldown_timeout() -> void:
-	can_attack = true
+	can_attack_ranged = true
+
+# (TODO) Implements ghost to dash
+func add_ghost() -> void:
+	var ghost = ghost_node
+	ghost.set_property(self.position, animation.scale)
+	get_tree().current_scene.add_child(ghost)
+
+
+func _on_dash_ghost_timeout():
+	add_ghost()
+
+func dash():
+	can_dash = false
+	print("is dashing")
+	var dash_cooldown = $DashCooldown
+	self.position.x += walk_dir * (DASH_SPEED * delta_time)
+	dash_cooldown.start()
+	move_and_slide()
+
+
+func _on_dash_cooldown_timeout():
+	can_dash = true
+	self.velocity.x = walk_dir * (SPEED * delta_time)

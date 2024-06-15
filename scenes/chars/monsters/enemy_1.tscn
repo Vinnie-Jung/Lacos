@@ -176,6 +176,14 @@ value = 100.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
+[node name="LeftTerrainDetector" type="RayCast2D" parent="."]
+position = Vector2(-20, 0)
+target_position = Vector2(0, 70)
+
+[node name="RightTerrainDetector" type="RayCast2D" parent="."]
+position = Vector2(20, 0)
+target_position = Vector2(0, 70)
+
 [connection signal="body_entered" from="Radar" to="." method="_on_radar_body_entered"]
 [connection signal="body_exited" from="Radar" to="." method="_on_radar_body_exited"]
 [connection signal="body_entered" from="Attack" to="." method="_on_attack_body_entered"]

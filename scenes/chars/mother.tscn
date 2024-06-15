@@ -257,7 +257,16 @@ wait_time = 0.2
 [node name="ProjectileCooldown" type="Timer" parent="."]
 one_shot = true
 
+[node name="DashGhost" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="TakeDamageTimer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="SpearAttackBox" to="." method="_on_attack_box_body_entered"]
 [connection signal="timeout" from="SpearAttackBox/AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="ProjectileCooldown" to="." method="_on_projectile_cooldown_timeout"]
+[connection signal="timeout" from="DashGhost" to="." method="_on_dash_ghost_timeout"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

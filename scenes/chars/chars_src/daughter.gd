@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var timer: Timer = $TakeDamageTimer
 @onready var super_jump_timer: Timer = $SuperPulo
 @onready var animation = $Texture
+@onready var collision_box = $Collision
 
 # World
 var gravity = 1500#ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -120,3 +121,9 @@ func _on_shield_timeout():
 
 func _animation(anim_name: String) -> void:
 	animation.play(anim_name)
+	
+	# Adjust float animation position
+	if (anim_name == "float"):
+		animation.position.y = -3
+	else:
+		animation.position.y = 0

@@ -25,6 +25,7 @@ func default_config() -> void:
 	config.set_value("keybinding", "melee_attack", "mouse_1")
 	config.set_value("keybinding", "ranged_attack", "mouse_2")
 	config.set_value("keybinding", "skill", "Q")
+	config.set_value("keybinding", "dash", "F")
 
 	# --- Video ---
 	config.set_value("video", "fullscreen", false)

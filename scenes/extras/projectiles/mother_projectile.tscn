@@ -16,3 +16,5 @@ texture = ExtResource("2_nx4p8")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_rbkag")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

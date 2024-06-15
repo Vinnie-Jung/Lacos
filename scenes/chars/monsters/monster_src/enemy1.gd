@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var attack_area = $Attack/Area
 @onready var attack_cooldown: Timer = $AttackCooldown
 @onready var hit_timer: Timer = $HitTimer
+@onready var terrain_left = $LeftTerrainDetector
+@onready var terrain_right = $RightTerrainDetector
 
 # World
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -30,7 +32,17 @@ func _ready() -> void:
 	_animation("walk")
 	
 func _physics_process(delta: float) -> void:
-	_movement(delta)
+	if (terrain_left.is_colliding() && terrain_right.is_colliding()):
+		_movement(delta)
+	elif (target != null):
+		var dir = (target.global_position - self.global_position)
+		if (terrain_left.is_colliding()):
+			if (dir.x < 0):
+				_movement(delta)
+		elif (terrain_right.is_colliding()):
+			if (dir.x > 0):
+				_movement(delta)
+			
 	
 	# Gravity
 	self.velocity.y += gravity * delta if (!is_on_floor()) else 0
@@ -93,4 +105,5 @@ func _on_attack_cooldown_timeout():
 
 
 func _on_attack_body_exited(body):
-	in_range = false
+	if (body.name == "Mother" || body.name == "Daughter"):
+		in_range = false
