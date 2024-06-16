@@ -111,16 +111,18 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g5nwd"]
-radius = 7.0
+radius = 2.0
 height = 26.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3brlr"]
-size = Vector2(1191.5, 348.5)
+size = Vector2(2213.75, 348.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sro1a"]
 radius = 364.157
 
 [node name="Enemy2" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 8
+collision_mask = 3
 script = ExtResource("1_e85dd")
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
@@ -155,10 +157,12 @@ wait_time = 2.0
 [node name="LeftTerrainDetector" type="RayCast2D" parent="."]
 position = Vector2(-10, 0)
 target_position = Vector2(0, 56)
+collision_mask = 2
 
 [node name="RightTerrainDetector" type="RayCast2D" parent="."]
 position = Vector2(10, 0)
 target_position = Vector2(0, 56)
+collision_mask = 2
 
 [connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
 [connection signal="body_entered" from="Radar" to="." method="_on_radar_body_entered"]

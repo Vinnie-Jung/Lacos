@@ -43,7 +43,7 @@ size = Vector2(7773, 125)
 [node name="MotherSceneProt" type="Node"]
 
 [node name="Mother" parent="." instance=ExtResource("1_nyxn6")]
-position = Vector2(186, -135)
+position = Vector2(1915, -145)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

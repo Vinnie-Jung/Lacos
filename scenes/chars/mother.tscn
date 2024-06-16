@@ -217,6 +217,7 @@ height = 38.0
 
 [node name="Mother" type="CharacterBody2D"]
 scale = Vector2(2, 2)
+collision_mask = 3
 script = ExtResource("1_5yh1y")
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
@@ -229,9 +230,8 @@ frame_progress = 0.771346
 position = Vector2(-1, 4)
 shape = SubResource("CapsuleShape2D_theco")
 
-[node name="Camera" type="Camera2D" parent="."]
-
 [node name="RockAttackBox" type="Area2D" parent="."]
+collision_mask = 12
 
 [node name="Area" type="CollisionShape2D" parent="RockAttackBox"]
 position = Vector2(19.5, 0)
@@ -241,6 +241,7 @@ disabled = true
 [node name="AttackTimer" type="Timer" parent="RockAttackBox"]
 
 [node name="SpearAttackBox" type="Area2D" parent="."]
+collision_mask = 12
 
 [node name="Area" type="CollisionShape2D" parent="SpearAttackBox"]
 position = Vector2(29.5, 8.5)
@@ -261,13 +262,16 @@ one_shot = true
 wait_time = 0.15
 one_shot = true
 
-[node name="DashCooldown" type="Timer" parent="."]
-wait_time = 0.2
+[node name="DashDuration" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
+
+[node name="DashTimer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="SpearAttackBox" to="." method="_on_attack_box_body_entered"]
 [connection signal="timeout" from="SpearAttackBox/AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="TakeDamageTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ProjectileCooldown" to="." method="_on_projectile_cooldown_timeout"]
 [connection signal="timeout" from="DashGhost" to="." method="_on_dash_ghost_timeout"]
-[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="DashDuration" to="." method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

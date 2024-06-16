@@ -16,4 +16,7 @@ texture = ExtResource("2_v8gik")
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3s56b")
 
+[node name="OnScreen" type="VisibleOnScreenEnabler2D" parent="."]
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="OnScreen" to="." method="_on_screen_exited"]

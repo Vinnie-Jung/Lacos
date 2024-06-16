@@ -2,7 +2,7 @@ class_name MainMenuBtns
 extends VBoxContainer
 
 # Preloads
-@onready var new_level: PackedScene = preload("res://scenes/levels/mother_scene_prot.tscn")
+@onready var new_level: PackedScene = preload("res://scenes/levels/level_1_0.tscn")
 @onready var confirm_quit_box: PackedScene = preload("res://scenes/menu/confirm_quit_box.tscn")
 
 # Buttons

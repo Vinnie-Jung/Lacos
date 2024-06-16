@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var terrain_left = $LeftTerrainDetector
 @onready var terrain_right = $RightTerrainDetector
 @onready var radar = $Radar
+@onready var collision = $Collision
 
 # World
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -40,7 +41,7 @@ func _physics_process(delta: float) -> void:
 		if (terrain_left.is_colliding()):
 			if (dir.x < 0):
 				_movement(delta)
-		elif (terrain_right.is_colliding()):
+		if (terrain_right.is_colliding()):
 			if (dir.x > 0):
 				_movement(delta)
 	
@@ -58,7 +59,7 @@ func _physics_process(delta: float) -> void:
 	
 
 func _movement(delta: float) -> void:
-	if (target is CharacterBody2D):
+	if (target is CharacterBody2D && !in_range):
 		var dir = (target.global_position - self.global_position).normalized()
 		self.velocity.x = (SPEED * delta) * dir.x
 		move_and_slide()
@@ -98,9 +99,10 @@ func _on_radar_body_exited(body) -> void:
 
 func _on_attack_body_entered(body) -> void:
 	in_range = true
-	if (body.name == target.name && attack_cooldown.time_left == 0 && in_range):
-		body.take_damage(ATTACK_DAMAGE)
-		attack_cooldown.start()
+	if (target != null):
+		if (body.name == target.name && attack_cooldown.time_left == 0 && in_range):
+			body.take_damage(ATTACK_DAMAGE)
+			attack_cooldown.start()
 
 func _animation(anim: String) -> void:
 	animation.play(anim)

@@ -111,17 +111,19 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flxod"]
-radius = 24.0
+radius = 8.0
 height = 88.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6d4h"]
-size = Vector2(516, 347.5)
+size = Vector2(1815.5, 347.5)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1r4a3"]
 radius = 7.0
 height = 42.0
 
 [node name="Enemy1" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 6
 script = ExtResource("1_jfjr8")
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
@@ -135,6 +137,7 @@ frame_progress = 0.274084
 shape = SubResource("CapsuleShape2D_flxod")
 
 [node name="Radar" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Radar"]
 shape = SubResource("RectangleShape2D_s6d4h")
@@ -157,10 +160,12 @@ one_shot = true
 [node name="LeftTerrainDetector" type="RayCast2D" parent="."]
 position = Vector2(-20, 0)
 target_position = Vector2(0, 70)
+collision_mask = 3
 
 [node name="RightTerrainDetector" type="RayCast2D" parent="."]
 position = Vector2(20, 0)
 target_position = Vector2(0, 70)
+collision_mask = 3
 
 [connection signal="body_entered" from="Radar" to="." method="_on_radar_body_entered"]
 [connection signal="body_exited" from="Radar" to="." method="_on_radar_body_exited"]

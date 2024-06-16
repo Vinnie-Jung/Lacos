@@ -88,7 +88,6 @@ func _on_radar_body_exited(body) -> void:
 
 func _attack() -> void:
 	var dir = self.global_position - target.global_position
-	print(dir)
 	var new_proj = preload("res://scenes/extras/projectiles/enemy_projectile.tscn").instantiate()
 	
 	get_parent().add_child(new_proj)
@@ -98,14 +97,11 @@ func _attack() -> void:
 	new_proj.scale = Vector2(0.3, 0.3)
 	new_proj.damage = DAMAGE
 
-
 func _on_attack_cooldown_timeout():
 	can_attack = true
 
-
-func _on_range_body_entered(body):
+func _on_range_body_entered(_body):
 	not_in_range = false
 
-
-func _on_range_body_exited(body):
+func _on_range_body_exited(_body):
 	not_in_range = true

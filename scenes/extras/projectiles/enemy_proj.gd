@@ -4,6 +4,7 @@ extends Area2D
 @export var damage: int = 0
 
 const PROJECTILE_SPEED: int = 500
+var out_of_screen: bool = false
 
 func _physics_process(delta: float) -> void:
 	if (direction.x <0):
@@ -20,3 +21,11 @@ func _on_body_entered(body):
 		body.take_damage(damage)
 		self.queue_free()
 
+func proj_destroy() -> void:
+	# When is out of screen
+	if (out_of_screen):
+		self.queue_free()
+
+func _on_screen_exited() -> void:
+	out_of_screen = true
+	proj_destroy()

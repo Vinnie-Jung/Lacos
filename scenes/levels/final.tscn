@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://jnru01bsmnn6"]
+
+[ext_resource type="Script" path="res://scenes/levels/final.gd" id="1_jh5bg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yfxs1"]
+radius = 136.235
+
+[node name="Final" type="Area2D"]
+position = Vector2(9247, -2534)
+script = ExtResource("1_jh5bg")
+
+[node name="Area" type="CollisionShape2D" parent="."]
+position = Vector2(270, 30)
+shape = SubResource("CircleShape2D_yfxs1")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

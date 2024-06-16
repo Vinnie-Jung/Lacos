@@ -10,11 +10,12 @@ extends CharacterBody2D
 @onready var spear_attack_area = $SpearAttackBox/Area
 @onready var hit_timer: Timer = $TakeDamageTimer
 @onready var ghost_timer: Timer = $DashGhost
-@onready var dash_cooldown = $DashCooldown
+@onready var dash_cooldown = $DashDuration
+@onready var dash_timer = $DashTimer
 
 
 # Preloads
-@onready var daughter_scene: PackedScene = preload("res://scenes/levels/daugher_scene_prot.tscn")
+@onready var daughter_scene: PackedScene = preload("res://scenes/levels/level_1_1.tscn")
 @onready var ghost_node: Sprite2D = preload("res://scenes/extras/ghost/ghost.tscn").instantiate()
 
 # World
@@ -36,7 +37,7 @@ var attack_dir
 
 
 var walk_dir
-const DASH_SPEED: float = 100000
+const DASH_SPEED: float = 150000
 var is_dashing: bool = false
 var delta_time
 var can_dash = true
@@ -190,5 +191,9 @@ func _on_projectile_cooldown_timeout() -> void:
 
 
 func _on_dash_cooldown_timeout():
-	can_dash = true
 	is_dashing = false
+	dash_timer.start()
+
+
+func _on_dash_timer_timeout():
+	can_dash = true

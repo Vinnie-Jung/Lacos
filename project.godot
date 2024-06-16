@@ -22,6 +22,11 @@ GlobalInit="*res://config/init.gd"
 PlayerAttrib="*res://resources/helpers/playerattrib.gd"
 Soulhandler="*res://resources/helpers/soulhandler.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/scale=0.8
+
 [gui]
 
 theme/custom_font="res://resources/fonts/PixelifySans.ttf"
