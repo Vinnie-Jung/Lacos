@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cdqoypkccfs3k"]
+[gd_scene load_steps=12 format=3 uid="uid://cdqoypkccfs3k"]
 
 [ext_resource type="PackedScene" uid="uid://qogbmhrthkjq" path="res://scenes/chars/daughter.tscn" id="1_2gnpf"]
 [ext_resource type="PackedScene" uid="uid://vkgvsh61ohmn" path="res://scenes/extras/screen/camera.tscn" id="2_2bbfk"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cp2g3y2snyors" path="res://scenes/chars/monsters/enemy_1.tscn" id="5_j1qp0"]
 [ext_resource type="PackedScene" uid="uid://dcd8ivdvs11ry" path="res://scenes/chars/monsters/enemy_2.tscn" id="6_8v583"]
 [ext_resource type="PackedScene" uid="uid://jnru01bsmnn6" path="res://scenes/levels/final.tscn" id="7_ve33w"]
+[ext_resource type="PackedScene" uid="uid://bs8tpnstpbbc1" path="res://scenes/ui/hud.tscn" id="8_5d3ri"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bitu"]
 texture = ExtResource("3_cbhf4")
@@ -669,3 +670,5 @@ position = Vector2(7887, -2380)
 position = Vector2(7742, -2380)
 
 [node name="Final" parent="." instance=ExtResource("7_ve33w")]
+
+[node name="HUD" parent="." instance=ExtResource("8_5d3ri")]

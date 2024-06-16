@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://3jhlg3jhkn77"]
+[gd_scene load_steps=11 format=3 uid="uid://3jhlg3jhkn77"]
 
 [ext_resource type="Texture2D" uid="uid://djdbxm8vbsih3" path="res://resources/assets/tileset/tilesets_mother.png" id="1_bc1n4"]
 [ext_resource type="PackedScene" uid="uid://dnsptyp0ysmjh" path="res://scenes/chars/mother.tscn" id="2_0cp43"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://vkgvsh61ohmn" path="res://scenes/extras/screen/camera.tscn" id="5_vd74v"]
 [ext_resource type="PackedScene" uid="uid://cxhrnm5gifufj" path="res://scenes/levels/dead_zone.tscn" id="6_ag55w"]
 [ext_resource type="PackedScene" uid="uid://jnru01bsmnn6" path="res://scenes/levels/final.tscn" id="7_rbko0"]
+[ext_resource type="PackedScene" uid="uid://bs8tpnstpbbc1" path="res://scenes/ui/hud.tscn" id="8_jhxm5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cgp2e"]
 texture = ExtResource("1_bc1n4")
@@ -382,7 +383,7 @@ position = Vector2(7202, -226)
 position = Vector2(8698, -226)
 
 [node name="Enemy8" parent="Enemies" instance=ExtResource("4_hup8p")]
-position = Vector2(8076, -210)
+position = Vector2(8076, -224)
 
 [node name="Camera" parent="." instance=ExtResource("5_vd74v")]
 
@@ -404,3 +405,5 @@ position = Vector2(0, 378)
 
 [node name="Final" parent="." instance=ExtResource("7_rbko0")]
 position = Vector2(9768, -348)
+
+[node name="HUD" parent="." instance=ExtResource("8_jhxm5")]

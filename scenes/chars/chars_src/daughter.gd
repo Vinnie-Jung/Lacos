@@ -96,6 +96,7 @@ func take_damage(dmg: int) -> void:
 			call_deferred("_die")
 
 func _die() -> void:
+	Soulhandler.reset_soul_counter()
 	var skill_tree = load("res://scenes/menu/main_menu.tscn")
 	get_tree().change_scene_to_packed(skill_tree)
 	self.queue_free()

@@ -132,6 +132,7 @@ func take_damage(dmg: int) -> void:
 
 
 func _die() -> void:
+	Soulhandler.reset_soul_counter()
 	get_tree().change_scene_to_packed(daughter_scene)
 	self.queue_free()
 

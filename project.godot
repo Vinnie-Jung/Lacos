@@ -25,7 +25,7 @@ Soulhandler="*res://resources/helpers/soulhandler.gd"
 [display]
 
 window/stretch/mode="viewport"
-window/stretch/scale=0.8
+window/stretch/scale=0.7
 
 [gui]
 
