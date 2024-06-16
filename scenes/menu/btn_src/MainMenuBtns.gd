@@ -4,6 +4,7 @@ extends VBoxContainer
 # Preloads
 @onready var new_level: PackedScene = preload("res://scenes/levels/level_1_0.tscn")
 @onready var confirm_quit_box: PackedScene = preload("res://scenes/menu/confirm_quit_box.tscn")
+@onready var options_box: PackedScene = preload("res://scenes/menu/options.tscn")
 
 # Buttons
 @onready var playBtn: Button = $PlayBtn
@@ -24,10 +25,6 @@ func _set_buttons() -> Array[Node]:
 	for button in button_list:
 		button.add_to_group("main_menu_buttons")
 
-	# Set disabled buttons
-	optionsBtn.disabled = true
-	optionsBtn.focus_mode = Control.FOCUS_NONE
-
 	return button_list
 
 
@@ -36,7 +33,8 @@ func _button_pressed(button: Button) -> void:
 		"PlayBtn":
 			get_tree().change_scene_to_packed(new_level)
 		"OptionsBtn":
-			pass
+			var options: CanvasLayer = options_box.instantiate()
+			get_tree().root.add_child(options)
 		"QuitBtn":
 			_quit()
 

@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch28jd2dri1xq"]
+
+[ext_resource type="Script" path="res://scenes/menu/btn_src/options.gd" id="1_7ghaj"]
+
+[node name="Options" type="CanvasLayer"]
+script = ExtResource("1_7ghaj")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.227451, 0.227451, 0.227451, 0.678431)
+
+[node name="Screen" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="ColorRect" parent="Screen"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0.147672, 0.147672, 0.147672, 1)
+
+[node name="VerticalAlign" type="VBoxContainer" parent="Screen/Box"]
+layout_mode = 2
+offset_right = 300.0
+offset_bottom = 300.0
+
+[node name="TitleMargin" type="MarginContainer" parent="Screen/Box/VerticalAlign"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 50
+
+[node name="OptionsLabel" type="Label" parent="Screen/Box/VerticalAlign/TitleMargin"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "OPÇÕES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HorizontalAlign" type="HBoxContainer" parent="Screen/Box/VerticalAlign"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="FullscreenLabel" type="Label" parent="Screen/Box/VerticalAlign/HorizontalAlign"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 20
+text = "Tela cheia"
+
+[node name="OptionButton" type="CheckButton" parent="Screen/Box/VerticalAlign/HorizontalAlign"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="ReturnMargin" type="MarginContainer" parent="Screen/Box/VerticalAlign"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="ReturnButton" type="Button" parent="Screen/Box/VerticalAlign/ReturnMargin"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 24
+text = "Fechar"
+
+[connection signal="pressed" from="Screen/Box/VerticalAlign/HorizontalAlign/OptionButton" to="." method="_on_option_button_pressed"]
+[connection signal="pressed" from="Screen/Box/VerticalAlign/ReturnMargin/ReturnButton" to="." method="_on_return_button_pressed"]
