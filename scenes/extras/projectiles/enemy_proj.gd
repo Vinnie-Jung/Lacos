@@ -1,10 +1,10 @@
+class_name Enemy2Projectile
 extends Area2D
 
 @export var direction: Vector2 = Vector2.ZERO
 @export var damage: int = 0
 
 const PROJECTILE_SPEED: int = 500
-var out_of_screen: bool = false
 
 func _physics_process(delta: float) -> void:
 	if (direction.x <0):
@@ -14,18 +14,15 @@ func _physics_process(delta: float) -> void:
 	
 	self.position.x += direction.x * (PROJECTILE_SPEED * delta)
 
-
 func _on_body_entered(body):
 	# When hit player
-	if (body.name == "Mother" || body.name == "Daughter"):
+	if (body.is_in_group("player")):
 		body.take_damage(damage)
-		self.queue_free()
+		proj_destroy()
 
 func proj_destroy() -> void:
-	# When is out of screen
-	if (out_of_screen):
-		self.queue_free()
+	# Destroy projectile
+	self.queue_free()
 
 func _on_screen_exited() -> void:
-	out_of_screen = true
 	proj_destroy()

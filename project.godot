@@ -19,8 +19,11 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 
 GlobalConfig="*res://config/config.gd"
 GlobalInit="*res://config/init.gd"
-PlayerAttrib="*res://resources/helpers/playerattrib.gd"
-Soulhandler="*res://resources/helpers/soulhandler.gd"
+Scenehandler="*res://resources/helpers/singletons/scenehandler.gd"
+PlayerAttrib="*res://resources/helpers/singletons/playerattrib.gd"
+Skillhandler="*res://resources/helpers/singletons/skillhandler.gd"
+Soulhandler="*res://resources/helpers/singletons/soulhandler.gd"
+Inputhandler="*res://resources/helpers/singletons/inputhandler.gd"
 
 [display]
 
@@ -30,6 +33,12 @@ window/stretch/scale=0.7
 [gui]
 
 theme/custom_font="res://resources/fonts/PixelifySans.ttf"
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Map"
+2d_physics/layer_32="Camera"
 
 [rendering]
 

@@ -9,29 +9,29 @@ extends CharacterBody2D
 @onready var terrain_right = $RightTerrainDetector
 @onready var radar = $Radar
 @onready var collision = $Collision
+@onready var animation = $Texture
 
 # World
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # Monster attributes
-const SPEED: int = 10000
-const JUMP_STRENGH: int = -1000
-const ATTACK_DAMAGE: int = 2
-const SOUL_DROP: int = 1
-const MAX_HEALTH: int = 10
 @export var current_health: int = MAX_HEALTH
 @export var max_health: int = MAX_HEALTH
 @onready var target = null
-
-var can_attack = true
-var in_range = false
-
-@onready var animation = $Texture
+@onready var can_attack = true
+@onready var in_range = false
+const SPEED: int = 10000
+const ATTACK_DAMAGE: int = 5
+const SOUL_DROP: int = 1
+const MAX_HEALTH: int = 50
 
 func _ready() -> void:
 	attack_cooldown.wait_time = 1.5
 	attack_cooldown.one_shot = true
 	_animation("walk")
+
+	# Sets group
+	self.add_to_group("enemies")
 	
 func _physics_process(delta: float) -> void:
 	if (terrain_left.is_colliding() && terrain_right.is_colliding()):
@@ -48,10 +48,10 @@ func _physics_process(delta: float) -> void:
 	var bodies_in_radar = radar.get_overlapping_bodies()
 	
 	for body in bodies_in_radar:
-		if (body.name == "Daughter" && !body.is_inv):
+		if (body.is_in_group("daughter") && !Skillhandler.is_inv):
 			target = body
 			
-		if (body.name == "Daughter" && body.is_inv):
+		if (body.is_in_group("daughter") && Skillhandler.is_inv):
 			target = null
 	
 	# Gravity
@@ -64,37 +64,39 @@ func _movement(delta: float) -> void:
 		self.velocity.x = (SPEED * delta) * dir.x
 		move_and_slide()
 		
+		# Positioning attack area
 		if (dir.x < 0):
 			attack_area.position.x = -32
 			animation.flip_h = true
 		else:
 			attack_area.position.x = 32
 			animation.flip_h = false
-	else:
-		pass
 
 func take_damage(dmg: int) -> void:
 	current_health -= dmg
 	self.modulate = Color(1, 0, 0)
 	hit_timer.start()
-	
-	if (current_health <= 0):
-		call_deferred("_die")
 
-func _die() -> void:
+	if (current_health <= 0):
+		call_deferred("die")
+
+func die() -> void:
 	Soulhandler.drop_soul(self, SOUL_DROP)
 	self.queue_free()
 
+func _animation(anim: String) -> void:
+	animation.play(anim)
 
+# ========== SIGNALS ==========
 func _on_radar_body_entered(body) -> void:
-	if (body.name == "Mother" || body.name == "Daughter"):
+	if (body.is_in_group("player")):
 		target = body
 		
-		if (body.name == "Daughter" && body.is_inv):
+		if (body.is_in_group("daughter") && Skillhandler.is_inv):
 			target = null
 
 func _on_radar_body_exited(body) -> void:
-	if (body.name == "Mother" || body.name == "Daughter"):
+	if (body.is_in_group("player")):
 		target = null
 
 func _on_attack_body_entered(body) -> void:
@@ -104,20 +106,14 @@ func _on_attack_body_entered(body) -> void:
 			body.take_damage(ATTACK_DAMAGE)
 			attack_cooldown.start()
 
-func _animation(anim: String) -> void:
-	animation.play(anim)
-
-
 func _on_hit_timer_timeout():
 	self.modulate = Color(1, 1, 1)
-
 
 func _on_attack_cooldown_timeout():
 	can_attack = true
 	if (target != null && in_range):
 		_on_attack_body_entered(target)
 
-
 func _on_attack_body_exited(body):
-	if (body.name == "Mother" || body.name == "Daughter"):
+	if (body.is_in_group("player")):
 		in_range = false

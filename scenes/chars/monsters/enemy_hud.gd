@@ -13,7 +13,7 @@ func _ready() -> void:
 	life_bar.value = current_life
 	
 	# Setting bar color
-	life_bar.modulate = Color(0, 1, 0)
+	life_bar.modulate = Color(1, 0, 0)
 
 func _process(_delta) -> void:
 	# Updating bar values

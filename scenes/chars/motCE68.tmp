@@ -1,15 +1,10 @@
-[gd_scene load_steps=36 format=3 uid="uid://dnsptyp0ysmjh"]
+[gd_scene load_steps=34 format=3 uid="uid://dnsptyp0ysmjh"]
 
 [ext_resource type="Script" path="res://scenes/chars/chars_src/mother.gd" id="1_5yh1y"]
-[ext_resource type="Texture2D" uid="uid://b3cryk65oo5a2" path="res://resources/assets/spr/mother/mother_falling.png" id="2_ma04p"]
 [ext_resource type="Texture2D" uid="uid://ckkhumfhjxm3y" path="res://resources/assets/spr/mother/mother_attack_sheet.png" id="2_ywuvh"]
 [ext_resource type="Texture2D" uid="uid://bad6e5tiii44v" path="res://resources/assets/spr/mother/mother_idle_sheet.png" id="3_yskyu"]
 [ext_resource type="Texture2D" uid="uid://4dtkpgxr2u8d" path="res://resources/assets/spr/mother/mother_jump_sheet.png" id="4_beqmr"]
 [ext_resource type="Texture2D" uid="uid://b8vywo0pa1wmr" path="res://resources/assets/spr/mother/mother_walk_sheet.png" id="4_hmvmc"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e77q6"]
-atlas = ExtResource("2_ma04p")
-region = Rect2(0, 0, 48, 29)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v5joh"]
 atlas = ExtResource("3_yskyu")
@@ -115,14 +110,6 @@ region = Rect2(336, 0, 48, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_e77q6")
-}],
-"loop": true,
-"name": &"falling",
-"speed": 0.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_v5joh")
 }, {
 "duration": 1.0,
@@ -168,7 +155,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"jump",
-"speed": 8.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -185,7 +172,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"spear_attack",
-"speed": 4.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -253,6 +240,11 @@ disabled = true
 [node name="AttackCooldown" type="Timer" parent="MeleeAttackBox"]
 wait_time = 0.8
 
+[node name="RangedAttack" type="Node2D" parent="."]
+
+[node name="AttackCooldown" type="Timer" parent="RangedAttack"]
+
 [connection signal="timeout" from="HurtCooldown" to="." method="hurt_cooldown"]
 [connection signal="body_entered" from="MeleeAttackBox" to="." method="_on_attack_box_body_entered"]
 [connection signal="timeout" from="MeleeAttackBox/AttackCooldown" to="." method="attack_cooldown"]
+[connection signal="timeout" from="RangedAttack/AttackCooldown" to="." method="ranged_cooldown"]

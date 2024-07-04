@@ -2,8 +2,8 @@ extends CharacterBody2D
 @onready var hit_timer: Timer = $HitTimer
 
 const SOUL_DROP: int = 1
-const DAMAGE: int = 4
-const MAX_HEALTH: int = 5
+const DAMAGE: int = 10
+const MAX_HEALTH: int = 25
 const SPEED = 10000
 @onready var current_health: int = MAX_HEALTH
 
@@ -26,13 +26,16 @@ var not_in_range = true
 func _ready():
 	animation.play("idle")
 
+	# Sets group
+	self.add_to_group("enemies")
+
 func _physics_process(delta) -> void:
 	bodies_in_radar = attack_range.get_overlapping_bodies()
 	for body in bodies_in_radar:
 		if (body is CharacterBody2D && body == target && can_attack):
-			if (body.name == "Daughter" && !body.is_inv || body.name == "Mother"):
+			if (body.is_in_group("mother") || body.is_in_group("daughter") && !body.is_inv):
 				can_attack = false
-				_attack()
+				attack()
 				attack_cooldown.start()
 	
 	if (target != null):
@@ -76,32 +79,32 @@ func _on_hit_timer_timeout():
 
 
 func _on_radar_body_entered(body) -> void:
-	if (body.name == "Mother" || body.name == "Daughter"):
+	if (body.is_in_group("player")):
 		target = body
 		
 		if (body.name == "Daughter" && body.is_inv):
 			target = null
 
 func _on_radar_body_exited(body) -> void:
-	if (body.name == "Mother" || body.name == "Daughter"):
+	if (body.is_in_group("player")):
 		target = null
 
-func _attack() -> void:
+func attack() -> void:
 	var dir = self.global_position - target.global_position
 	var new_proj = preload("res://scenes/extras/projectiles/enemy_projectile.tscn").instantiate()
 	
 	get_parent().add_child(new_proj)
 	
 	new_proj.position = self.position
-	new_proj.direction.x = -dir.x
+	new_proj.direction = -dir
 	new_proj.scale = Vector2(0.3, 0.3)
 	new_proj.damage = DAMAGE
 
-func _on_attack_cooldown_timeout():
+func _on_attack_cooldown_timeout() -> void:
 	can_attack = true
 
-func _on_range_body_entered(_body):
+func _on_range_body_entered(_body) -> void:
 	not_in_range = false
 
-func _on_range_body_exited(_body):
+func _on_range_body_exited(_body) -> void:
 	not_in_range = true

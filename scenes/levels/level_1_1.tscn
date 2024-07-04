@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://cdqoypkccfs3k"]
 
-[ext_resource type="PackedScene" uid="uid://qogbmhrthkjq" path="res://scenes/chars/daughter.tscn" id="1_2gnpf"]
+[ext_resource type="PackedScene" uid="uid://dj0baoeajl2m3" path="res://scenes/chars/daughter.tscn" id="1_2gnpf"]
 [ext_resource type="PackedScene" uid="uid://vkgvsh61ohmn" path="res://scenes/extras/screen/camera.tscn" id="2_2bbfk"]
 [ext_resource type="Texture2D" uid="uid://u818r2gckep5" path="res://resources/assets/tileset/tilesets_daughter.png" id="3_cbhf4"]
 [ext_resource type="PackedScene" uid="uid://cxhrnm5gifufj" path="res://scenes/levels/dead_zone.tscn" id="4_mure1"]

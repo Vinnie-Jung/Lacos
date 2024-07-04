@@ -30,8 +30,6 @@ func find_edges() -> void:
 		left_limit = parent.find_child("LeftCamEdge").position.x
 	if (parent.find_child("LeftCamEdge")):
 		right_limit = parent.find_child("RightCamEdge").position.x
-	else:
-		print("there is nothing here")
 		
 	# Vertical axis
 	if (parent.find_child("BottomCamEdge")):
@@ -40,11 +38,8 @@ func find_edges() -> void:
 		top_limit = parent.find_child("TopCamEdge").position.y
 
 func find_player() -> void:
-	# Verifies wich character player is using
-	if (parent.find_child("Mother")):
-		player = parent.find_child("Mother")
-	elif (parent.find_child("Daughter")):
-		player = parent.find_child("Daughter")
+	if (parent.find_child("Player")):
+		player = parent.find_child("Player")
 		
 func follow_player() -> void:
 	# Cam Center Anchor

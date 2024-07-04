@@ -1,9 +1,17 @@
-[gd_scene load_steps=27 format=3 uid="uid://qogbmhrthkjq"]
+[gd_scene load_steps=25 format=3 uid="uid://dj0baoeajl2m3"]
 
 [ext_resource type="Script" path="res://scenes/chars/chars_src/daughter.gd" id="1_u0dgc"]
 [ext_resource type="Texture2D" uid="uid://c8kotembmw822" path="res://resources/assets/spr/daughter/daughter_float_sheet.png" id="2_gm06r"]
 [ext_resource type="Texture2D" uid="uid://cxl2pdfc55e3w" path="res://resources/assets/spr/daughter/daughter_idle_sheet.png" id="3_bo7rd"]
 [ext_resource type="Texture2D" uid="uid://0rb8wnt5348f" path="res://resources/assets/spr/daughter/daughter_superjump_sheet.png" id="4_wwjs5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vb7yd"]
+atlas = ExtResource("4_wwjs5")
+region = Rect2(110, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t06pj"]
+atlas = ExtResource("4_wwjs5")
+region = Rect2(132, 0, 22, 25)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3enc2"]
 atlas = ExtResource("2_gm06r")
@@ -45,14 +53,6 @@ region = Rect2(44, 0, 22, 25)
 atlas = ExtResource("3_bo7rd")
 region = Rect2(66, 0, 22, 25)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1opyo"]
-atlas = ExtResource("4_wwjs5")
-region = Rect2(0, 0, 22, 25)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lemnl"]
-atlas = ExtResource("4_wwjs5")
-region = Rect2(22, 0, 22, 25)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_3scm4"]
 atlas = ExtResource("4_wwjs5")
 region = Rect2(44, 0, 22, 25)
@@ -77,16 +77,19 @@ region = Rect2(132, 0, 22, 25)
 atlas = ExtResource("4_wwjs5")
 region = Rect2(154, 0, 22, 25)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3a2rm"]
-atlas = ExtResource("4_wwjs5")
-region = Rect2(176, 0, 22, 25)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5ku6o"]
-atlas = ExtResource("4_wwjs5")
-region = Rect2(198, 0, 22, 25)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_35smd"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vb7yd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t06pj")
+}],
+"loop": true,
+"name": &"falling",
+"speed": 4.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3enc2")
@@ -129,12 +132,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1opyo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lemnl")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_3scm4")
 }, {
 "duration": 1.0,
@@ -149,14 +146,8 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cc8id")
 }, {
-"duration": 1.0,
+"duration": 5.0,
 "texture": SubResource("AtlasTexture_25rh8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3a2rm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5ku6o")
 }],
 "loop": true,
 "name": &"super_jump",
@@ -175,37 +166,14 @@ script = ExtResource("1_u0dgc")
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_35smd")
 animation = &"super_jump"
-frame_progress = 0.551925
+frame_progress = 0.801133
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_iet7s")
 
-[node name="TakeDamageTimer" type="Timer" parent="."]
+[node name="HitCooldown" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
 
-[node name="SuperJump" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
-[node name="ShieldCooldown" type="Timer" parent="."]
-wait_time = 5.0
-
-[node name="ShieldDuration" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
-[node name="InvisibilityCooldown" type="Timer" parent="."]
-wait_time = 10.0
-
-[node name="InvisibilityDuration" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-
-[connection signal="timeout" from="TakeDamageTimer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="SuperJump" to="." method="_on_super_jump_timeout"]
-[connection signal="timeout" from="ShieldCooldown" to="." method="_on_shield_cooldown_timeout"]
-[connection signal="timeout" from="ShieldDuration" to="." method="_on_shield_timeout"]
-[connection signal="timeout" from="InvisibilityCooldown" to="." method="_on_invisibility_cooldown_timeout"]
-[connection signal="timeout" from="InvisibilityDuration" to="." method="_on_invisibility_duration_timeout"]
+[connection signal="timeout" from="HitCooldown" to="." method="_on_timer_timeout"]
