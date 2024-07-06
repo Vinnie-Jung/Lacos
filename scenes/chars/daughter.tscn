@@ -130,6 +130,11 @@ animations = [{
 "name": &"idle",
 "speed": 7.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"purify",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3scm4")
@@ -165,8 +170,8 @@ script = ExtResource("1_u0dgc")
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_35smd")
-animation = &"super_jump"
-frame_progress = 0.801133
+animation = &"purify"
+frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -176,4 +181,8 @@ shape = SubResource("CapsuleShape2D_iet7s")
 wait_time = 0.1
 one_shot = true
 
+[node name="CanHurtAgainCooldown" type="Timer" parent="."]
+wait_time = 1.5
+
 [connection signal="timeout" from="HitCooldown" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="CanHurtAgainCooldown" to="." method="_on_can_hurt_again_cooldown_timeout"]

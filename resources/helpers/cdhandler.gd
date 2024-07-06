@@ -50,6 +50,28 @@ func handle_timer(timer_name: String, exist: bool, character: CharacterBody2D) -
 				
 				timer.start()
 			
+			"PurifyDuration":
+				if (!exist):
+					exist = true
+					timer = create_timer(timer_name, 1.0)
+					timer.timeout.connect(Skillhandler.purify_ends)
+					character.add_child(timer)
+				else:
+					timer = character.get_node(timer_name)
+				
+				timer.start()
+				
+			"PurifyCooldown":
+				if (!exist):
+					exist = true
+					timer = create_timer(timer_name, 10.0)
+					timer.timeout.connect(Skillhandler.purify_cooldown)
+					character.add_child(timer)
+				else:
+					timer = character.get_node(timer_name)
+				
+				timer.start()
+			
 			_:
 				pass
 	

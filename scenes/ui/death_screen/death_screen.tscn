@@ -1,0 +1,107 @@
+[gd_scene load_steps=4 format=3 uid="uid://b842gr4an1sv0"]
+
+[ext_resource type="Script" path="res://scenes/ui/death_screen/menu_btn.gd" id="1_7gpht"]
+[ext_resource type="Script" path="res://scenes/ui/death_screen/continue_btn.gd" id="2_r5nha"]
+[ext_resource type="Script" path="res://scenes/ui/death_screen/SkillTree.gd" id="3_e7n7o"]
+
+[node name="DeathScreen" type="CanvasLayer"]
+
+[node name="ScreenMargin" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="ScreenMargin"]
+layout_mode = 2
+color = Color(0.0823529, 0, 0, 0.34902)
+
+[node name="Box" type="PanelContainer" parent="ScreenMargin"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ColorRect" type="ColorRect" parent="ScreenMargin/Box"]
+layout_mode = 2
+color = Color(0.104356, 0.105337, 0.0900579, 1)
+
+[node name="Padding" type="MarginContainer" parent="ScreenMargin/Box"]
+layout_mode = 2
+
+[node name="Elements" type="VBoxContainer" parent="ScreenMargin/Box/Padding"]
+layout_mode = 2
+
+[node name="MarginTitle" type="MarginContainer" parent="ScreenMargin/Box/Padding/Elements"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BoxTitle" type="Label" parent="ScreenMargin/Box/Padding/Elements/MarginTitle"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Fracasso"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="MarginMsg" type="MarginContainer" parent="ScreenMargin/Box/Padding/Elements"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Message" type="Label" parent="ScreenMargin/Box/Padding/Elements/MarginMsg"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Você falhou! Uma entidade superior a puxa de volta para lhe levar a um local seguro."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenMargin/Box/Padding/Elements"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginBtn1" type="MarginContainer" parent="ScreenMargin/Box/Padding/Elements/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="MainMenuBtn" type="Button" parent="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn1"]
+self_modulate = Color(0.633757, 1, 0.641433, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Menu Principal"
+script = ExtResource("1_7gpht")
+
+[node name="MarginBtn2" type="MarginContainer" parent="ScreenMargin/Box/Padding/Elements/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ContinueBtn" type="Button" parent="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn2"]
+self_modulate = Color(0.635294, 1, 0.643137, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Continuar"
+script = ExtResource("2_r5nha")
+
+[node name="MarginBtn3" type="MarginContainer" parent="ScreenMargin/Box/Padding/Elements/HBoxContainer"]
+layout_mode = 2
+
+[node name="SkillTree" type="Button" parent="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn3"]
+self_modulate = Color(0.635294, 1, 0.643137, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Árvore de habilidade"
+script = ExtResource("3_e7n7o")
+
+[connection signal="pressed" from="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn1/MainMenuBtn" to="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn1/MainMenuBtn" method="menu_btn_pressed"]
+[connection signal="pressed" from="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn2/ContinueBtn" to="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn2/ContinueBtn" method="continue_btn_pressed"]
+[connection signal="pressed" from="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn3/SkillTree" to="ScreenMargin/Box/Padding/Elements/HBoxContainer/MarginBtn3/SkillTree" method="_on_pressed"]

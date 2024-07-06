@@ -7,6 +7,11 @@ const MAX_HEALTH: int = 25
 const SPEED = 10000
 @onready var current_health: int = MAX_HEALTH
 
+var mouse_inside: bool = false
+var complement = ""
+@onready var test = $MouseArea/CollisionShape2D
+var is_purifyed = false
+
 @onready var attack_range = $Range
 @onready var attack_cooldown = $AttackCooldown
 @onready var animation = $Texture
@@ -30,22 +35,27 @@ func _ready():
 	self.add_to_group("enemies")
 
 func _physics_process(delta) -> void:
-	bodies_in_radar = attack_range.get_overlapping_bodies()
-	for body in bodies_in_radar:
-		if (body is CharacterBody2D && body == target && can_attack):
-			if (body.is_in_group("mother") || body.is_in_group("daughter") && !body.is_inv):
-				can_attack = false
-				attack()
-				attack_cooldown.start()
-	
-	if (target != null):
-		var dir = (target.global_position - self.global_position)
-		if (terrain_left.is_colliding()):
-			if (dir.x < 0):
-				_movement(delta)
-		if (terrain_right.is_colliding()):
-			if (dir.x > 0):
-				_movement(delta)
+	if (!is_purifyed):
+		bodies_in_radar = attack_range.get_overlapping_bodies()
+		for body in bodies_in_radar:
+			if (body is CharacterBody2D && body == target && can_attack):
+				if (body.is_in_group("mother") || body.is_in_group("daughter") && !body.is_inv):
+					can_attack = false
+					attack()
+					attack_cooldown.start()
+		
+		if (target != null):
+			var dir = (target.global_position - self.global_position)
+			if (terrain_left.is_colliding()):
+				if (dir.x < 0):
+					_movement(delta)
+			if (terrain_right.is_colliding()):
+				if (dir.x > 0):
+					_movement(delta)
+	else:
+		setting_anim()
+		animation.play("idle" + complement)
+		target = null
 				
 	# Gravity
 	self.velocity.y += gravity * delta if (!is_on_floor()) else 0
@@ -108,3 +118,21 @@ func _on_range_body_entered(_body) -> void:
 
 func _on_range_body_exited(_body) -> void:
 	not_in_range = true
+
+func setting_anim():
+	if (is_purifyed):
+			complement = "_purify"
+			animation.play("idle" + complement)
+
+func _on_mouse_area_mouse_entered():
+	mouse_inside = true
+
+
+func _on_mouse_area_mouse_exited():
+	mouse_inside = false
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.is_action_pressed("purify_skill") && Skillhandler.can_purify && Skillhandler.purify_unlocked:
+			if (mouse_inside):
+				is_purifyed = true

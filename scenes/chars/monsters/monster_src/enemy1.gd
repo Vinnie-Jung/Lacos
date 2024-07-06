@@ -11,6 +11,9 @@ extends CharacterBody2D
 @onready var collision = $Collision
 @onready var animation = $Texture
 
+var mouse_inside: bool = false
+var complement = ""
+
 # World
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -23,36 +26,43 @@ extends CharacterBody2D
 const SPEED: int = 10000
 const ATTACK_DAMAGE: int = 5
 const SOUL_DROP: int = 1
-const MAX_HEALTH: int = 50
+const MAX_HEALTH: int = 20
+@onready var test = $MouseArea/CollisionShape2D
+var is_purifyed = false
 
 func _ready() -> void:
 	attack_cooldown.wait_time = 1.5
 	attack_cooldown.one_shot = true
-	_animation("walk")
+	_animation("walk" + complement)
 
 	# Sets group
 	self.add_to_group("enemies")
 	
 func _physics_process(delta: float) -> void:
-	if (terrain_left.is_colliding() && terrain_right.is_colliding()):
-		_movement(delta)
-	elif (target != null):
-		var dir = (target.global_position - self.global_position)
-		if (terrain_left.is_colliding()):
-			if (dir.x < 0):
-				_movement(delta)
-		if (terrain_right.is_colliding()):
-			if (dir.x > 0):
-				_movement(delta)
-	
-	var bodies_in_radar = radar.get_overlapping_bodies()
-	
-	for body in bodies_in_radar:
-		if (body.is_in_group("daughter") && !Skillhandler.is_inv):
-			target = body
-			
-		if (body.is_in_group("daughter") && Skillhandler.is_inv):
-			target = null
+	if (!is_purifyed):
+		if (terrain_left.is_colliding() && terrain_right.is_colliding()):
+			_movement(delta)
+		elif (target != null):
+			var dir = (target.global_position - self.global_position)
+			if (terrain_left.is_colliding()):
+				if (dir.x < 0):
+					_movement(delta)
+			if (terrain_right.is_colliding()):
+				if (dir.x > 0):
+					_movement(delta)
+		
+		var bodies_in_radar = radar.get_overlapping_bodies()
+		
+		for body in bodies_in_radar:
+			if (body.is_in_group("daughter") && !Skillhandler.is_inv):
+				target = body
+				
+			if (body.is_in_group("daughter") && Skillhandler.is_inv):
+				target = null
+	else:
+		setting_anim()
+		_animation("walk" + complement)
+		target = null
 	
 	# Gravity
 	self.velocity.y += gravity * delta if (!is_on_floor()) else 0
@@ -89,7 +99,7 @@ func _animation(anim: String) -> void:
 
 # ========== SIGNALS ==========
 func _on_radar_body_entered(body) -> void:
-	if (body.is_in_group("player")):
+	if (body.is_in_group("player") && !is_purifyed):
 		target = body
 		
 		if (body.is_in_group("daughter") && Skillhandler.is_inv):
@@ -117,3 +127,28 @@ func _on_attack_cooldown_timeout():
 func _on_attack_body_exited(body):
 	if (body.is_in_group("player")):
 		in_range = false
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.is_action_pressed("purify_skill") && Skillhandler.can_purify && Skillhandler.purify_unlocked:
+			if (mouse_inside):
+				is_purifyed = true
+			
+			
+				#var id = self.get_index()
+
+func setting_anim():
+	if (is_purifyed):
+			complement = "_purify"
+			self._animation("walk" + complement)
+
+
+
+
+
+func _on_mouse_area_mouse_entered():
+	mouse_inside = true
+
+
+func _on_mouse_area_mouse_exited():
+	mouse_inside = false

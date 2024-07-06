@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://3jhlg3jhkn77"]
+[gd_scene load_steps=13 format=3 uid="uid://3jhlg3jhkn77"]
 
 [ext_resource type="Texture2D" uid="uid://djdbxm8vbsih3" path="res://resources/assets/tileset/tilesets_mother.png" id="1_bc1n4"]
+[ext_resource type="Texture2D" uid="uid://b2b7od6emr8uh" path="res://resources/assets/tileset/backgroundmaefinal.png" id="1_sif43"]
 [ext_resource type="PackedScene" uid="uid://dnsptyp0ysmjh" path="res://scenes/chars/mother.tscn" id="2_0cp43"]
 [ext_resource type="PackedScene" uid="uid://cp2g3y2snyors" path="res://scenes/chars/monsters/enemy_1.tscn" id="3_ok5qi"]
 [ext_resource type="PackedScene" uid="uid://dcd8ivdvs11ry" path="res://scenes/chars/monsters/enemy_2.tscn" id="4_hup8p"]
@@ -351,6 +352,18 @@ sources/0 = SubResource("TileSetAtlasSource_cgp2e")
 size = Vector2(2, 958)
 
 [node name="level1-0" type="Node"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(120, -570)
+motion_mirroring = Vector2(5120, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(-1121, -2239)
+scale = Vector2(10, 10)
+texture = ExtResource("1_sif43")
+centered = false
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(60, 10)

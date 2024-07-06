@@ -3,14 +3,18 @@ extends CharacterBody2D
 
 # Nodes
 @onready var animation: AnimatedSprite2D = $Texture
-@onready var spear_attack_area: CollisionShape2D = $MeleeAttackBox/Area
+@onready var spear_attack_area: CollisionShape2D = $SpearAttackBox/Spear
+@onready var rock_box = $RockAttackBox/Rock
 
 # Cooldowns
-@onready var melee_cooldown: Timer = $MeleeAttackBox/AttackCooldown
+@onready var melee_cooldown: Timer = $SpearAttackBox/AttackCooldown
 @onready var hit_cooldown: Timer = $HurtCooldown
+@onready var can_be_hit: Timer = $CanHurtAgainCooldown
+@onready var rock_cooldown: Timer = $RockAttackBox/AttackCooldown
 
 # Preloads
 @onready var daughter_scene: PackedScene = preload("res://scenes/levels/level_1_1.tscn")
+@onready var death_screen: PackedScene = preload("res://scenes/ui/death_screen/death_screen.tscn")
 
 # Enviroment
 @onready var gravity: int = 1200
@@ -22,6 +26,7 @@ extends CharacterBody2D
 @onready var is_falling: bool = false
 const SPEED: int = 25000
 const JUMP_STRENGH: int = 700
+var can_be_hurt: bool = true
 
 # Publics
 @export var can_attack_ranged = true
@@ -35,6 +40,7 @@ const JUMP_STRENGH: int = 700
 
 func _ready() -> void:
 	# Sets handler
+	PlayerAttrib.character = "mother"
 	PlayerAttrib.set_max_health(max_health)
 	PlayerAttrib.set_health(current_health)
 	PlayerAttrib.scale = self.scale
@@ -75,6 +81,7 @@ func move(delta: float) -> void:
 		animation.play("walk")
 		animation.flip_h = true if (direction < 0) else false
 		spear_attack_area.position.x = -29.5 if (direction <0) else 29.5
+		rock_box.position.x = -29.5 if (direction <0) else 29.5
 	elif (is_jumping && !is_attacking):
 		animation.play("falling")
 		if (direction < 0):
@@ -85,6 +92,7 @@ func move(delta: float) -> void:
 			pass
 			
 		spear_attack_area.position.x = -29.5 if (direction < 0 || animation.flip_h) else 29.5
+		rock_box.position.x = -29.5 if (direction <0) else 29.5
 	elif (is_falling && !is_attacking):
 		animation.play("falling")
 		if (direction < 0):
@@ -101,7 +109,7 @@ func move(delta: float) -> void:
 	move_and_slide()
 	
 	PlayerAttrib.position = self.position
-	PlayerAttrib.attack_box = spear_attack_area
+	PlayerAttrib.attack_box = spear_attack_area if (Skillhandler.spear_unlocked) else rock_box
 	PlayerAttrib.animation = animation
 
 func verify_jump() -> void:
@@ -119,26 +127,36 @@ func verify_jump() -> void:
 		is_falling = false
 		
 func take_damage(dmg: int) -> void:
-		current_health -= dmg
-		PlayerAttrib.set_health(current_health)
-		
-		self.modulate = Color(1,0,0)
-		hit_cooldown.start()
-		if (current_health <= 0):
-			call_deferred("die")
+		if (can_be_hurt):
+			can_be_hurt = false
+			can_be_hit.start()
+			current_health -= dmg
+			PlayerAttrib.set_health(current_health)
+			
+			self.modulate = Color(1,0,0)
+			hit_cooldown.start()
+			if (current_health <= 0):
+				call_deferred("die")
 
 func hurt_cooldown() -> void:
 	self.modulate = Color(1,1,1)
 	
 func die() -> void:
 	Soulhandler.reset_soul_counter()
-	get_tree().change_scene_to_packed(daughter_scene)
+	var death_box = death_screen.instantiate()
+	self.get_parent().add_child(death_box)
 	self.queue_free()
 
 func _on_attack_box_body_entered(body):
+	aa(body)
+	
+func aa(body):
 	can_attack_melee = false
 	if (body.is_in_group("enemies")):
-		body.take_damage(PlayerAttrib.spear_dmg)
+		if (Skillhandler.spear_unlocked):
+			body.take_damage(PlayerAttrib.spear_dmg)
+		else:
+			body.take_damage(PlayerAttrib.rock_dmg)
 	
 func get_attack_direction() -> int:
 	# Gets mouse position
@@ -152,3 +170,11 @@ func get_attack_direction() -> int:
 		attack_dir = 1
 		
 	return attack_dir
+
+
+func _on_can_hurt_again_cooldown_timeout():
+	can_be_hurt = true
+
+
+func _on_rock_attack_box_body_entered(body):
+	aa(body)

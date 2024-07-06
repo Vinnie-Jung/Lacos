@@ -42,6 +42,7 @@ func find_player() -> void:
 		player = parent.find_child("Player")
 		
 func follow_player() -> void:
-	# Cam Center Anchor
-	self.anchor_mode = Camera2D.ANCHOR_MODE_DRAG_CENTER
-	self.position = player.position
+	if (PlayerAttrib.current_life > 0 && player != null):
+		# Cam Center Anchor
+		self.anchor_mode = Camera2D.ANCHOR_MODE_DRAG_CENTER
+		self.position = player.position

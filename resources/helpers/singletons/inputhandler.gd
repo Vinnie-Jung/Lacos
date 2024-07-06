@@ -14,15 +14,17 @@ func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton):
 		if (player.is_in_group("mother")):
 			if (event.is_action_pressed("melee_attack") && can_use(Skillhandler.can_melee)):
-				Skillhandler.spear_unlocked = true # (TODO) REMOVE IT
+				#Skillhandler.spear_unlocked = true # (TODO) REMOVE IT
 				if (Skillhandler.spear_unlocked):
 					var attack_box: CollisionShape2D = PlayerAttrib.attack_box
 					var direction: int = PlayerAttrib.direction
 					var animation: AnimatedSprite2D = PlayerAttrib.animation
 					Skillhandler.melee_attack(attack_box, direction, animation)
 				else:
-					# Rock
-					pass
+					var attack_box: CollisionShape2D = PlayerAttrib.attack_box
+					var direction: int = PlayerAttrib.direction
+					var animation: AnimatedSprite2D = PlayerAttrib.animation
+					Skillhandler.melee_attack(attack_box, direction, animation)
 					
 			if (event.is_action_pressed("ranged_attack") && can_use(Skillhandler.can_ranged)):
 				if (Skillhandler.ranged_unlocked):

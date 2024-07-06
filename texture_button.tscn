@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfpkms4wcs1ll"]
 
-[ext_resource type="Texture2D" uid="uid://07t1gkmqppot" path="res://icon.svg" id="1_wo2c0"]
+[ext_resource type="Texture2D" uid="uid://bn8fx8biwoxgw" path="res://icon.svg" id="1_wo2c0"]
 [ext_resource type="Script" path="res://TextureButton.gd" id="2_ifkyf"]
 
 [node name="TextureButton" type="TextureButton"]
@@ -31,6 +31,7 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Label" type="Label" parent="MarginContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 20

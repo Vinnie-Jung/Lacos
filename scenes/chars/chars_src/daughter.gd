@@ -8,14 +8,17 @@ extends CharacterBody2D
 
 # Cooldowns
 @onready var hit_cooldown: Timer = $HitCooldown
+@onready var can_be_hit: Timer = $CanHurtAgainCooldown
 
 # Nodes
 @onready var animation: AnimatedSprite2D = $Texture
 @onready var collision_box: CollisionShape2D = $Collision
+@onready var death_screen: PackedScene = preload("res://scenes/ui/death_screen/death_screen.tscn")
 
 # Bools
 var is_jumping: bool = false
 var is_falling: bool = false
+var can_be_hurt: bool = true
 
 # World
 var gravity: int = 1200
@@ -29,6 +32,7 @@ const JUMP_STRENGTH: int = 700
 
 func _ready() -> void:
 	# Sets Player attributes
+	PlayerAttrib.character = "daughter"
 	PlayerAttrib.set_max_health(max_health)
 	PlayerAttrib.set_health(current_health)
 
@@ -92,7 +96,7 @@ func take_damage(dmg: int) -> void:
 			aux = child
 			
 	# If there is no shield...
-	if (aux == null):
+	if (aux == null && can_be_hurt):
 		current_health -= dmg
 		PlayerAttrib.set_health(current_health)
 		self.modulate = Color(1, 0, 0) # changes sprite to red
@@ -102,8 +106,8 @@ func take_damage(dmg: int) -> void:
 
 func die() -> void:
 	Soulhandler.reset_soul_counter()
-	var skill_tree = load("res://scenes/menu/main_menu.tscn")
-	get_tree().change_scene_to_packed(skill_tree)
+	var death_box = death_screen.instantiate()
+	self.get_parent().add_child(death_box)
 	self.queue_free()
 	
 func _animation(anim_name: String) -> void:
@@ -119,3 +123,7 @@ func _animation(anim_name: String) -> void:
 func _on_timer_timeout() -> void:
 	self.modulate = Color(1, 1, 1)
 
+
+
+func _on_can_hurt_again_cooldown_timeout():
+	can_be_hurt = true

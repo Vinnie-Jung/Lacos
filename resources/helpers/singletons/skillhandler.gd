@@ -35,12 +35,27 @@ extends Node
 @onready var shield_cd_exists: bool = false
 @onready var invisibility_duration_exists: bool = false
 @onready var invisibility_cd_exists: bool = false
+@onready var purify_duration_exists: bool = false
+@onready var purify_cd_exists: bool = false
 @onready var cooldown: CooldownHandler = CooldownHandler.new()
 
 func _process(_delta: float) -> void:
 	var current_scene = Scenehandler.current_scene
 	if (current_scene != null && current_scene.name != "MainMenu"):
-		current_character = current_scene.get_node("Player")
+		var player_exist = current_scene.has_node("Player")
+		if (player_exist):
+			current_character = current_scene.get_node("Player")
+			if (current_scene.get_node("Player").is_in_group("mother")):
+				shield_cd_exists = false
+				shield_duration_exists = false
+				invisibility_cd_exists = false
+				invisibility_duration_exists = false
+				purify_cd_exists = false
+			else:
+				melee_cd_exists = false
+				ranged_cd_exists = false
+				dash_duration_exists = false
+				dash_cooldown_exists = false
 
 # --- MOTHER ---
 func dash(dir: float, delta: float = get_physics_process_delta_time()) -> void:
@@ -118,7 +133,15 @@ func invisibility() -> void:
 	invisibility_duration_exists = cooldown.handle_timer("InvisibilityDuration", invisibility_duration_exists, current_character)
 	
 func purify() -> void:
-	pass
+	can_use_skill = false
+	can_purify = false
+	
+	#current_character._animation("purify")	
+	current_character.modulate = Color(0,1,0.4, 0.5)
+	
+
+	# Sets timer
+	purify_duration_exists = cooldown.handle_timer("PurifyDuration", purify_duration_exists, current_character)
 
 
 # --- COOLDOWNS ---
@@ -134,6 +157,7 @@ func melee_attack_cooldown() -> void:
 	current_character.can_attack_melee = true
 	current_character.is_attacking = false
 	current_character.spear_attack_area.disabled = true
+	current_character.rock_box.disabled = true
 	can_melee = true
 	
 func ranged_attack_cooldown() -> void:
@@ -167,12 +191,21 @@ func invisibility_ends() -> void:
 func invisibility_cooldown() -> void:
 	can_hide = true
 
+func purify_ends() -> void:
+	can_use_skill = true
+	current_character.modulate = Color(1,1,1,1)
+	
+	# Sets timer
+	purify_cd_exists = cooldown.handle_timer("PurifyCooldown", purify_cd_exists, current_character)
 func purify_cooldown() -> void:
-	pass
+	can_purify = true
 
 # --- Progress ---
 func unlock_skill(skill: String) -> void:
 	match skill:
+		"rock_attack":
+			print("Level Up!!! You unlocked ROCK ATTACK")
+			rock_unlocked = true
 		"spear_attack":
 			print("Level Up!!! You unlocked SPEAR ATTACK")
 			spear_unlocked = true
@@ -198,17 +231,20 @@ func unlock_skill(skill: String) -> void:
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventKey):
+		if (event.is_action_pressed("ui_right")):
+			unlock_skill("purify")
 		if (event.is_action_pressed("ui_home")):
 			unlock_skill("ranged_attack")
 			
 		if (event.is_action_pressed("ui_left")):
 			unlock_skill("dash")
-			
+		'''
 		if (event.is_action_pressed("ui_right")):
 			unlock_skill("shield")
-			
+		'''
 		if (event.is_action_pressed("ui_down")):
 			unlock_skill("invisibility")
 			
 		if (event.is_action_pressed("ui_up")):
 			unlock_skill("ranged_attack")
+

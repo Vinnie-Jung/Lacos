@@ -8,15 +8,17 @@ extends Node
 @onready var dash_direction
 @onready var attack_box: CollisionShape2D
 @onready var animation: AnimatedSprite2D # Transform this into a state machine
-
+@onready var character: String
+@onready var purify_target
+@onready var points = 0
 # Health
 @onready var current_life: int
 @onready var max_health: int
 
 # Damages
-@onready var rock_dmg: int = 2
+@onready var rock_dmg: int = 4
 @onready var spear_dmg: int = 10
-@onready var ranged_dmg: int = 5
+@onready var ranged_dmg: int = 7
 
 # --- HEALTH ---
 func get_health() -> int:

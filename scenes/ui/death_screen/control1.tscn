@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://2dvwjd4c614w"]
+[gd_scene load_steps=5 format=3 uid="uid://dafi7c5h2j581"]
 
-[ext_resource type="PackedScene" uid="uid://bfpkms4wcs1ll" path="res://texture_button.tscn" id="1_lc72f"]
-[ext_resource type="Script" path="res://Label.gd" id="2_key0n"]
-[ext_resource type="Script" path="res://Button2.gd" id="3_x8ne5"]
+[ext_resource type="PackedScene" uid="uid://bfpkms4wcs1ll" path="res://texture_button.tscn" id="1_cs4nt"]
+[ext_resource type="Script" path="res://Label.gd" id="2_icvj1"]
+[ext_resource type="Script" path="res://texture_button.gd" id="2_l2hs2"]
+[ext_resource type="Script" path="res://Button2.gd" id="3_w0l2w"]
 
-[node name="Control" type="Control"]
+[node name="Control1" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,10 +31,11 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="Panel/MarginContainer"]
+modulate = Color(0.503716, 0.879064, 0, 1)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Rock" parent="Panel/MarginContainer/Panel" instance=ExtResource("1_lc72f")]
+[node name="SuperJump" parent="Panel/MarginContainer/Panel" instance=ExtResource("1_cs4nt")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -46,30 +48,34 @@ offset_right = -12.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_l2hs2")
 
-[node name="Spear" parent="Panel/MarginContainer/Panel/Rock" instance=ExtResource("1_lc72f")]
+[node name="Shield" parent="Panel/MarginContainer/Panel/SuperJump" instance=ExtResource("1_cs4nt")]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 96.0
 offset_right = 82.0
 offset_bottom = 176.0
 disabled = true
+script = null
 
-[node name="Ranged" parent="Panel/MarginContainer/Panel/Rock" instance=ExtResource("1_lc72f")]
+[node name="Purify" parent="Panel/MarginContainer/Panel/SuperJump" instance=ExtResource("1_cs4nt")]
 layout_mode = 0
 offset_left = 106.0
 offset_top = -1.0
 offset_right = 186.0
 offset_bottom = 79.0
 disabled = true
+script = null
 
-[node name="Dash" parent="Panel/MarginContainer/Panel/Rock" instance=ExtResource("1_lc72f")]
+[node name="Invisibility" parent="Panel/MarginContainer/Panel/SuperJump" instance=ExtResource("1_cs4nt")]
 layout_mode = 0
 offset_left = 106.0
 offset_top = 95.0
 offset_right = 186.0
 offset_bottom = 175.0
 disabled = true
+script = null
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/Panel"]
 layout_mode = 0
@@ -83,8 +89,8 @@ offset_top = 49.0
 offset_right = 198.0
 offset_bottom = 69.0
 theme_override_font_sizes/font_size = 30
-text = "Almas coletadas: 0 "
-script = ExtResource("2_key0n")
+text = "Pontos disponíveis: 0 "
+script = ExtResource("2_icvj1")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -111,7 +117,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 30
 text = "MENU"
-script = ExtResource("3_x8ne5")
+script = ExtResource("3_w0l2w")
 
 [connection signal="pressed" from="MarginContainer/Button" to="Label" method="_on_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Button2" to="Label" method="_on_button_2_pressed"]

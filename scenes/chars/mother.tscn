@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dnsptyp0ysmjh"]
+[gd_scene load_steps=37 format=3 uid="uid://dnsptyp0ysmjh"]
 
 [ext_resource type="Script" path="res://scenes/chars/chars_src/mother.gd" id="1_5yh1y"]
 [ext_resource type="Texture2D" uid="uid://b3cryk65oo5a2" path="res://resources/assets/spr/mother/mother_falling.png" id="2_ma04p"]
@@ -224,6 +224,9 @@ height = 56.0
 radius = 19.0
 height = 38.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qnptf"]
+radius = 11.5
+
 [node name="Mother" type="CharacterBody2D"]
 scale = Vector2(2, 2)
 collision_mask = 2147483651
@@ -242,17 +245,34 @@ shape = SubResource("CapsuleShape2D_theco")
 wait_time = 0.1
 one_shot = true
 
-[node name="MeleeAttackBox" type="Area2D" parent="."]
+[node name="CanHurtAgainCooldown" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="SpearAttackBox" type="Area2D" parent="."]
 collision_mask = 12
 
-[node name="Area" type="CollisionShape2D" parent="MeleeAttackBox"]
+[node name="Spear" type="CollisionShape2D" parent="SpearAttackBox"]
 position = Vector2(29.5, 8.5)
 shape = SubResource("CapsuleShape2D_ffs5j")
 disabled = true
 
-[node name="AttackCooldown" type="Timer" parent="MeleeAttackBox"]
+[node name="AttackCooldown" type="Timer" parent="SpearAttackBox"]
+wait_time = 0.8
+
+[node name="RockAttackBox" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="Rock" type="CollisionShape2D" parent="RockAttackBox"]
+position = Vector2(25, 8.5)
+shape = SubResource("CircleShape2D_qnptf")
+disabled = true
+
+[node name="AttackCooldown" type="Timer" parent="RockAttackBox"]
 wait_time = 0.8
 
 [connection signal="timeout" from="HurtCooldown" to="." method="hurt_cooldown"]
-[connection signal="body_entered" from="MeleeAttackBox" to="." method="_on_attack_box_body_entered"]
-[connection signal="timeout" from="MeleeAttackBox/AttackCooldown" to="." method="attack_cooldown"]
+[connection signal="timeout" from="CanHurtAgainCooldown" to="." method="_on_can_hurt_again_cooldown_timeout"]
+[connection signal="body_entered" from="SpearAttackBox" to="." method="_on_attack_box_body_entered"]
+[connection signal="timeout" from="SpearAttackBox/AttackCooldown" to="." method="attack_cooldown"]
+[connection signal="body_entered" from="RockAttackBox" to="." method="_on_rock_attack_box_body_entered"]
+[connection signal="timeout" from="RockAttackBox/AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
